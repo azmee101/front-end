@@ -9,6 +9,7 @@ import {
 import Login from "./Login";
 import Welcome from "./welcome";
 import AssignedDocuments from "./AssignedDocuments";
+import Dashboard from "./Dashboard";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -51,11 +52,14 @@ function App() {
           }
         />
 
-        <Route 
-        path="/assigned-documents" 
-        element={
-        user ? <AssignedDocuments /> : <Navigate to="/" />
-        } 
+        <Route
+          path="/dashboard"
+          element={user ? <Dashboard user={user} /> : <Navigate to="/" />}
+        />
+
+        <Route
+          path="/assigned-documents"
+          element={user ? <AssignedDocuments /> : <Navigate to="/" />}
         />
       </Routes>
     </Router>
