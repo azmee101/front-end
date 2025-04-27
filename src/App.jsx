@@ -5,8 +5,10 @@ import {
   Routes,
   Navigate,
 } from "react-router-dom";
+
 import Login from "./Login";
 import Welcome from "./welcome";
+import AssignedDocuments from "./AssignedDocuments";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -47,6 +49,13 @@ function App() {
               <Navigate to="/" />
             )
           }
+        />
+
+        <Route 
+        path="/assigned-documents" 
+        element={
+        user ? <AssignedDocuments /> : <Navigate to="/" />
+        } 
         />
       </Routes>
     </Router>
