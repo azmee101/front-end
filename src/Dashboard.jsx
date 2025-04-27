@@ -1,4 +1,4 @@
-const Dashboard = ({ user }) => {
+const Dashboard = () => {
         return (
           <div className="flex-1 p-8">
             <div className="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto">

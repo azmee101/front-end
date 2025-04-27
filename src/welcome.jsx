@@ -41,7 +41,7 @@ const Welcome = ({ user, onLogout }) => {
             <nav className="mt-4">
               <button
                 className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
-                onClick={() => navigate('/dashboard')}
+                onClick={() => navigate("/dashboard")}
               >
                 <svg
                   className="w-5 h-5 mr-3"
@@ -59,7 +59,10 @@ const Welcome = ({ user, onLogout }) => {
                 Dashboard
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors mt-2">
+              <button
+                className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+                onClick={() => navigate("/profile")}
+              >
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -76,7 +79,10 @@ const Welcome = ({ user, onLogout }) => {
                 Profile
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors">
+              <button
+                className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+                onClick={() => navigate("/all-documents")}
+              >
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -93,8 +99,10 @@ const Welcome = ({ user, onLogout }) => {
                 All Documents
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
-  onClick={() => navigate('/assigned-documents')}>
+              <button
+                className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+                onClick={() => navigate("/assigned-documents")}
+              >
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -111,7 +119,10 @@ const Welcome = ({ user, onLogout }) => {
                 Assigned Documents
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors">
+              <button
+                className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+                onClick={() => navigate("/accessible-documents")}
+              >
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -128,7 +139,8 @@ const Welcome = ({ user, onLogout }) => {
                 Accessible Documents
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors">
+              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+  onClick={() => navigate('/document-categories')}>
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -145,7 +157,8 @@ const Welcome = ({ user, onLogout }) => {
                 Document Category
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors">
+              <button  className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+  onClick={() => navigate('/archive-documents')}>
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -162,7 +175,8 @@ const Welcome = ({ user, onLogout }) => {
                 Archive Document
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors mt-2">
+              <button  className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+  onClick={() => navigate('/settings')}>
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"

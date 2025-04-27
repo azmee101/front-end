@@ -10,6 +10,12 @@ import Login from "./Login";
 import Welcome from "./welcome";
 import AssignedDocuments from "./AssignedDocuments";
 import Dashboard from "./Dashboard";
+import Profile from "./Profile.jsx";
+import AllDocuments from './AllDocuments';
+import AccessibleDocuments from './AccessibleDocuments';
+import DocumentCategory from './DocumentCategory';
+import ArchiveDocuments from './ArchiveDocuments';
+import Settings from './Settings';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -57,10 +63,52 @@ function App() {
           element={user ? <Dashboard user={user} /> : <Navigate to="/" />}
         />
 
+        
+        <Route 
+          path="/profile" 
+          element={user ? <Profile user={user} /> : <Navigate to="/" />}
+        />
+
+        <Route 
+          path="/all-documents" 
+          element={
+            user ? <AllDocuments /> : <Navigate to="/" />
+          }
+        />
+
         <Route
           path="/assigned-documents"
           element={user ? <AssignedDocuments /> : <Navigate to="/" />}
         />
+
+        <Route 
+          path="/accessible-documents" 
+          element={
+            user ? <AccessibleDocuments /> : <Navigate to="/" />
+          }
+        />
+
+        <Route 
+          path="/document-categories" 
+          element={
+            user ? <DocumentCategory /> : <Navigate to="/" />
+          }
+        />
+
+        <Route 
+          path="/archive-documents" 
+          element={
+            user ? <ArchiveDocuments /> : <Navigate to="/" />
+          }
+        />
+
+        <Route 
+          path="/settings" 
+          element={
+            user ? <Settings user={user} /> : <Navigate to="/" />
+          }
+        />
+
       </Routes>
     </Router>
   );
