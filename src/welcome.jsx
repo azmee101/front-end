@@ -11,32 +11,33 @@ const Welcome = ({ user, onLogout }) => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      {/* Navbar */}
-      <nav className="bg-blue-600 text-white shadow-lg">
-        <div className="flex items-center justify-between h-16">
-          <div className="flex flex-1">
-            <div className="flex-shrink-0 flex items-center ml-4">
-              <img
-                className="h-8 w-8 mr-2"
-                src="nagad.png"
-                alt="Nagad DFS Logo"
-              />
-              <span className="text-xl font-semibold">Nagad DFS</span>
-            </div>
-            <div className="hidden md:flex items-center ml-220">
-              <span className="text-gray-200">
-                Logged in as: {user.username}
-              </span>
-            </div>
-          </div>
+    <div className="min-h-screen bg-gray-100 flex flex-col">
+  {/* Navbar - Fixed height */}
+  <nav className="bg-blue-600 text-white shadow-lg h-16 rounded-lg mx-4 mt-4">
+    <div className="flex items-center justify-between h-full">
+      <div className="flex flex-1">
+        <div className="flex-shrink-0 flex items-center ml-4">
+          <img
+            className="h-8 w-8 mr-2"
+            src="Nagad_Vertical Logo_Latest 1.svg"
+            alt="Nagad DFS Logo"
+          />
+          <span className="text-xl font-semibold">Nagad DFS</span>
         </div>
-      </nav>
+        <div className="hidden md:flex items-center ml-[870px]">
+          <span className="text-gray-200">
+            Logged in as: {user.username}
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
 
       {/* Main Content */}
-      <div className="flex">
+      <div className="flex flex-1 overflow-hidden">
         {/* Toolbar Sidebar */}
-        <div className="bg-white w-64 min-h-screen shadow-lg">
+        <div className="bg-white w-64 shadow-lg overflow-y-auto rounded-lg m-4">
           <div className="p-4">
             <nav className="mt-4">
               <button
@@ -139,8 +140,10 @@ const Welcome = ({ user, onLogout }) => {
                 Accessible Documents
               </button>
 
-              <button className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
-  onClick={() => navigate('/document-categories')}>
+              <button
+                className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+                onClick={() => navigate("/document-categories")}
+              >
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -157,8 +160,10 @@ const Welcome = ({ user, onLogout }) => {
                 Document Category
               </button>
 
-              <button  className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
-  onClick={() => navigate('/archive-documents')}>
+              <button
+                className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+                onClick={() => navigate("/archive-documents")}
+              >
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -175,8 +180,10 @@ const Welcome = ({ user, onLogout }) => {
                 Archive Document
               </button>
 
-              <button  className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
-  onClick={() => navigate('/settings')}>
+              <button
+                className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+                onClick={() => navigate("/settings")}
+              >
                 <svg
                   className="w-5 h-5 mr-3"
                   fill="none"
@@ -223,7 +230,7 @@ const Welcome = ({ user, onLogout }) => {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 p-8">
+        <div className="flex-1 overflow-auto p-4">
           <div className="bg-white rounded-lg shadow-md p-6">
             <h1 className="text-3xl font-bold text-gray-800 mb-4">
               Welcome back, {user.username}!

@@ -60,7 +60,7 @@ const Login = ({ setUser }) => {
   return (
     <div className="min-h-screen bg-gray-200 flex items-center">
       <img 
-        src="nagad.png" 
+        src="Nagad_Vertical Logo_Latest 1.svg" 
         alt="Background" 
         className="h-screen object-cover hidden md:block" 
       />
