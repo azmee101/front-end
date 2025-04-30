@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import Layout from './component/layout/Layout';
 
 import Login from "./Login";
 import Welcome from "./welcome";
@@ -37,78 +33,104 @@ function App() {
     setUser(null);
   };
 
+  const AuthenticatedRoute = ({ children }) => {
+    return user ? (
+      <Layout user={user} onLogout={handleLogout}>
+        {children}
+      </Layout>
+    ) : (
+      <Navigate to="/" />
+    );
+  };
+
   return (
     <Router>
       <Routes>
         <Route
           path="/"
-          element={
-            user ? <Navigate to="/welcome" /> : <Login setUser={setUser} />
-          }
+          element={user ? <Navigate to="/welcome" /> : <Login setUser={setUser} />}
         />
 
         <Route
           path="/welcome"
           element={
-            user ? (
-              <Welcome user={user} onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/" />
-            )
+            <AuthenticatedRoute>
+              <Welcome user={user} />
+            </AuthenticatedRoute>
           }
         />
 
         <Route
           path="/dashboard"
-          element={user ? <Dashboard user={user} /> : <Navigate to="/" />}
-        />
-
-        
-        <Route 
-          path="/profile" 
-          element={user ? <Profile user={user} /> : <Navigate to="/" />}
-        />
-
-        <Route 
-          path="/all-documents" 
           element={
-            user ? <AllDocuments /> : <Navigate to="/" />
+            <AuthenticatedRoute>
+              <Dashboard user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <AuthenticatedRoute>
+              <Profile user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/all-documents"
+          element={
+            <AuthenticatedRoute>
+              <AllDocuments />
+            </AuthenticatedRoute>
           }
         />
 
         <Route
           path="/assigned-documents"
-          element={user ? <AssignedDocuments /> : <Navigate to="/" />}
-        />
-
-        <Route 
-          path="/accessible-documents" 
           element={
-            user ? <AccessibleDocuments /> : <Navigate to="/" />
+            <AuthenticatedRoute>
+              <AssignedDocuments />
+            </AuthenticatedRoute>
           }
         />
 
-        <Route 
-          path="/document-categories" 
+        <Route
+          path="/accessible-documents"
           element={
-            user ? <DocumentCategory /> : <Navigate to="/" />
+            <AuthenticatedRoute>
+              <AccessibleDocuments />
+            </AuthenticatedRoute>
           }
         />
 
-        <Route 
-          path="/archive-documents" 
+        <Route
+          path="/document-categories"
           element={
-            user ? <ArchiveDocuments /> : <Navigate to="/" />
+            <AuthenticatedRoute>
+              <DocumentCategory />
+            </AuthenticatedRoute>
           }
         />
 
-        <Route 
-          path="/settings" 
+        <Route
+          path="/archive-documents"
           element={
-            user ? <Settings user={user} /> : <Navigate to="/" />
+            <AuthenticatedRoute>
+              <ArchiveDocuments />
+            </AuthenticatedRoute>
           }
         />
 
+        <Route
+          path="/settings"
+          element={
+            <AuthenticatedRoute>
+              <Settings user={user} />
+            </AuthenticatedRoute>
+          }
+        />
       </Routes>
     </Router>
   );
