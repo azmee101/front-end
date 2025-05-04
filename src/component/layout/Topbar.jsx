@@ -12,7 +12,7 @@ const Topbar = ({ user }) => {
               />
               <span className="text-xl font-semibold">Nagad DFS</span>
             </div>
-            <div className="hidden md:flex items-center ml-[870px]">
+            <div className="hidden md:flex items-center ml-10 md:ml-32 lg:ml-64 xl:ml-[900px]">
               <span className="text-gray-200">
                 Logged in as: {user.username}
               </span>
