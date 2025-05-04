@@ -1,7 +1,7 @@
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
 const Welcome = ({ user }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   return (
     <div className="flex-1 overflow-auto p-4">
@@ -21,19 +21,19 @@ const Welcome = ({ user }) => {
           </h2>
           <div className="flex space-x-4">
             <button 
-              onClick={() => navigate('/new-transaction')}
+              // onClick={() => navigate('/new-transaction')}
               className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition-colors"
             >
               New Transaction
             </button>
             <button 
-              onClick={() => navigate('/transaction-history')}
+              // onClick={() => navigate('/transaction-history')}
               className="bg-green-600 text-white px-4 py-2 rounded-md hover:bg-green-700 transition-colors"
             >
               View History
             </button>
             <button 
-              onClick={() => navigate('/settings')}
+              // onClick={() => navigate('/settings')}
               className="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700 transition-colors"
             >
               Account Settings
