@@ -62,11 +62,11 @@ const AssignedDocuments = () => {
 
         {/* Table Section */}
         <div className="flex-1 overflow-hidden">
-          <div className="overflow-x-auto h-full">
-            <table className="w-full text-sm">
-              <thead className="bg-gray-200">
+          <div className="overflow-x-auto h-full" style={{height: "250px"}}>
+            <table className="w-full text-lg">
+              <thead className="sticky top-0 bg-gray-200 z-10">
                 <tr>
-                  <th className="text-left py-2 px- 4 pl-4">Action</th>
+                  <th className="text-left py-4 px- 6 pl-4">Action</th>
                   <th className="text-left py-2 px-4">Name</th>
                   <th className="text-left py-2 px-4">Category Name</th>
                   <th className="text-left py-2 px-4">Storage</th>
@@ -93,7 +93,7 @@ const AssignedDocuments = () => {
                   <td className="truncate max-w-[200px]">Local Disk (Default)</td>
                   <td className="truncate max-w-[200px]">Client A</td>
                   <td className="truncate max-w-[200px]">5/3/2025</td>
-                  <td className="truncate max-w-[200px]">5/3/2026</td>
+                  <td className="truncate max-w-[200px] text-red-500">5/3/2026</td>
                   <td className="truncate max-w-[200px]">Ancells Elkins</td>
 
                 </tr>
@@ -114,7 +114,7 @@ const AssignedDocuments = () => {
                   <td className="truncate max-w-[200px]">Local Disk (Default)</td>
                   <td className="truncate max-w-[200px]">Client B</td>
                   <td className="truncate max-w-[200px]">5/2/2025</td>
-                  <td className="truncate max-w-[200px]">5/2/2026</td>
+                  <td className="truncate max-w-[200px] text-red-500">5/2/2026</td>
                   <td className="truncate max-w-[200px]">Ancells Elkins</td>
 
                 </tr>
@@ -156,7 +156,7 @@ const AssignedDocuments = () => {
                   <td className="truncate max-w-[200px]">Local Disk (Default)</td>
                   <td className="truncate max-w-[200px]">Client D</td>
                   <td className="truncate max-w-[200px]">5/2/2025</td>
-                  <td className="truncate max-w-[200px]">5/2/2026</td>
+                  <td className="truncate max-w-[200px] text-red-500">5/2/2026</td>
                   <td className="truncate max-w-[200px]">Ancells Elkins</td>
 
                 </tr>
@@ -218,7 +218,7 @@ const AssignedDocuments = () => {
                   <td className="truncate max-w-[200px]">Local Disk (Default)</td>
                   <td className="truncate max-w-[200px]">Client G</td>
                   <td className="truncate max-w-[200px]">4/29/2025</td>
-                  <td className="truncate max-w-[200px]">5/2/2026</td>
+                  <td className="truncate max-w-[200px] text-red-500">5/2/2026</td>
                   <td className="truncate max-w-[200px]">Ancells Elkins</td>
                 </tr>
 
@@ -238,7 +238,7 @@ const AssignedDocuments = () => {
                   <td className="truncate max-w-[200px]">Local Disk (Default)</td>
                   <td className="truncate max-w-[200px]">Client H</td>
                   <td className="truncate max-w-[200px]">4/29/2025</td>
-                  <td className="truncate max-w-[200px]">5/2/2026</td>
+                  <td className="truncate max-w-[200px] text-red-500">5/2/2026</td>
                   <td className="truncate max-w-[200px]">Ancells Elkins</td>
                 </tr>
 
@@ -258,7 +258,7 @@ const AssignedDocuments = () => {
                   <td className="truncate max-w-[200px]">Local Disk (Default)</td>
                   <td className="truncate max-w-[200px]">Client I</td>
                   <td className="truncate max-w-[200px]">4/29/2025</td>
-                  <td className="truncate max-w-[200px]">5/2/2026</td>
+                  <td className="truncate max-w-[200px] text-red-500">5/2/2026</td>
                   <td className="truncate max-w-[200px]">Ancells Elkins</td>
                 </tr>
 
@@ -278,7 +278,7 @@ const AssignedDocuments = () => {
                   <td className="truncate max-w-[200px]">Local Disk (Default)</td>
                   <td className="truncate max-w-[200px]">Client J</td>
                   <td className="truncate max-w-[200px]">4/28/2025</td>
-                  <td className="truncate max-w-[200px]">5/2/2026</td>
+                  <td className="truncate max-w-[200px] text-red-500">5/2/2026</td>
                   <td className="truncate max-w-[200px]">Ancells Elkins</td>
                 </tr>
               </tbody>
