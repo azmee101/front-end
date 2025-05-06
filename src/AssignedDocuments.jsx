@@ -219,7 +219,7 @@ const AssignedDocuments = () => {
         </div>
 
         {/* Pagination Section */}
-        <div className="flex justify-between items-center mt-4 text-sm bg-gray-200 p-3">
+        <div className="flex justify-between items-center mt-4 text-sm bg-gray-200">
           <Pagination  
             currentPage={currentPage}
             totalPages={totalPages}
