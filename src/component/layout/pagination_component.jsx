@@ -39,7 +39,7 @@ const Pagination = ({
           onChange={(e) => onRowsPerPageChange(Number(e.target.value))}
           className="border px-2 py-1 rounded"
         >
-          {[5, 10, 20, 50].map((size) => (
+          {[10, 20, 50].map((size) => (
             <option key={size} value={size}>{size}</option>
           ))}
         </select>
