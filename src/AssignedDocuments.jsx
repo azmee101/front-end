@@ -3,9 +3,8 @@ import Pagination from "./component/layout/pagination_component";
 
 const AssignedDocuments = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(15);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
 
-  // Sample data array - replace with your actual data source
   const documents = [
     {
       id: 1,
