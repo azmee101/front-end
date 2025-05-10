@@ -1,0 +1,254 @@
+{
+        "assignments": [
+          {
+            "id": 1,
+            "name": "Draft letter for Sender ID.doc",
+            "category": "ww",
+            "storage": "Local Disk (Default)",
+            "client": "Client A",
+            "createdDate": "5/3/2025",
+            "expiredDate": "5/3/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 2,
+            "name": "out put pour ORSYS",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client B",
+            "createdDate": "5/2/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 3,
+            "name": "model G DE MOI 01",
+            "category": "jusqua 6",
+            "storage": "Local Disk (Default)",
+            "client": "Client C",
+            "createdDate": "5/2/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 4,
+            "name": "WhatsApp image 2025-04-30 at 12.50.47 PM_ipeg",
+            "category": "Child Photos",
+            "storage": "Local Disk (Default)",
+            "client": "Client D",
+            "createdDate": "5/2/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 5,
+            "name": "J-LKL",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client E",
+            "createdDate": "5/2/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 6,
+            "name": "signeddnew-wgZGmNyPB.pdf",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client F",
+            "createdDate": "4/30/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 7,
+            "name": "Rajesh (1).docx",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client G",
+            "createdDate": "4/29/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 8,
+            "name": "PLP TALLY MANIFEST",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client H",
+            "createdDate": "4/29/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 9,
+            "name": "PLP KOJA SEGU2512900.pdf",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client I",
+            "createdDate": "4/29/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 10,
+            "name": "Contrato Clean New.pdf",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client J",
+            "createdDate": "4/28/2025",
+            "expiredDate": "5/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 11,
+            "name": "Additional Document.pdf",
+            "category": "Admin",
+            "storage": "Local Disk (Default)",
+            "client": "Client K",
+            "createdDate": "4/30/2025",
+            "expiredDate": "5/3/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 12,
+            "name": "Project Alpha Report.pdf",
+            "category": "Finance",
+            "storage": "Local Disk (Default)",
+            "client": "Client L",
+            "createdDate": "4/1/2025",
+            "expiredDate": "4/1/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 13,
+            "name": "Meeting Minutes 04-02.docx",
+            "category": "HR",
+            "storage": "Local Disk (Default)",
+            "client": "Client M",
+            "createdDate": "4/2/2025",
+            "expiredDate": "4/2/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 14,
+            "name": "Contract_ClientN_Final.pdf",
+            "category": "Legal",
+            "storage": "Local Disk (Default)",
+            "client": "Client N",
+            "createdDate": "4/3/2025",
+            "expiredDate": "4/3/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 15,
+            "name": "Tech Specs v2.1.docx",
+            "category": "Tech",
+            "storage": "Local Disk (Default)",
+            "client": "Client O",
+            "createdDate": "4/4/2025",
+            "expiredDate": "4/4/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 16,
+            "name": "Q1 Budget Summary.xlsx",
+            "category": "Finance",
+            "storage": "Local Disk (Default)",
+            "client": "Client P",
+            "createdDate": "4/5/2025",
+            "expiredDate": "4/5/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 17,
+            "name": "Marketing Plan 2025.pptx",
+            "category": "Marketing",
+            "storage": "Local Disk (Default)",
+            "client": "Client Q",
+            "createdDate": "4/6/2025",
+            "expiredDate": "4/6/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 18,
+            "name": "Employee Handbook 2025.pdf",
+            "category": "HR",
+            "storage": "Local Disk (Default)",
+            "client": "Client R",
+            "createdDate": "4/7/2025",
+            "expiredDate": "4/7/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 19,
+            "name": "Server Migration Guide.txt",
+            "category": "Tech",
+            "storage": "Local Disk (Default)",
+            "client": "Client S",
+            "createdDate": "4/8/2025",
+            "expiredDate": "4/8/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 20,
+            "name": "Client Feedback Survey.docx",
+            "category": "Operations",
+            "storage": "Local Disk (Default)",
+            "client": "Client T",
+            "createdDate": "4/9/2025",
+            "expiredDate": "4/9/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 21,
+            "name": "Research Findings Q2.pdf",
+            "category": "Research",
+            "storage": "Local Disk (Default)",
+            "client": "Client U",
+            "createdDate": "4/10/2025",
+            "expiredDate": "4/10/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 22,
+            "name": "UI Design Mockups Figma.png",
+            "category": "Design",
+            "storage": "Local Disk (Default)",
+            "client": "Client V",
+            "createdDate": "4/11/2025",
+            "expiredDate": "4/11/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 23,
+            "name": "Data Privacy Policy.pdf",
+            "category": "Legal",
+            "storage": "Local Disk (Default)",
+            "client": "Client W",
+            "createdDate": "4/12/2025",
+            "expiredDate": "4/12/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 24,
+            "name": "Inventory List 2025.xlsx",
+            "category": "Operations",
+            "storage": "Local Disk (Default)",
+            "client": "Client X",
+            "createdDate": "4/13/2025",
+            "expiredDate": "4/13/2026",
+            "createdBy": "Ancells Elkins"
+          },
+          {
+            "id": 25,
+            "name": "Backend API Documentation.md",
+            "category": "Tech",
+            "storage": "Local Disk (Default)",
+            "client": "Client Y",
+            "createdDate": "4/14/2025",
+            "expiredDate": "4/14/2026",
+            "createdBy": "Ancells Elkins"
+          }
+        ]
+}

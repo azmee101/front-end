@@ -8,7 +8,7 @@ const AllDocuments = () => {
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-    
+
   const totalPages = Math.ceil(totalDocuments / rowsPerPage);
 
   useEffect(() => {
