@@ -54,63 +54,35 @@ const Upload = () => {
             onDrop={handleDrop} 
             onDragOver={handleDragOver} 
             onClick={handleClick}
-            style={{
-                border: '2px dashed #ccc',
-                borderRadius: '10px',
-                padding: '20px',
-                textAlign: 'center',
-                color: '#666',
-                backgroundColor: '#f9f9f9',
-                cursor: 'pointer',
-            }}
+            className="border-2 border-dashed border-gray-300 rounded-lg p-5 text-center text-gray-600 bg-gray-100 cursor-pointer"
         >
             <p>Drag and drop files here, or click to select files.</p>
             <input 
                 type="file" 
                 ref={fileInputRef} 
-                style={{ display: 'none' }} 
+                className="hidden" 
                 onChange={handleFileSelect} 
                 multiple
             />
             {files.length > 0 && (
-                <div style={{ marginTop: '20px', textAlign: 'left' }}>
+                <div className="mt-5 text-left">
                     <h4>Selected Files:</h4>
-                    <div style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '10px',
-                        marginTop: '10px',
-                    }}>
+                    <div className="flex flex-col gap-2 mt-2">
                         {files.map((file, index) => (
                             <div 
                                 key={index} 
-                                style={{
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    alignItems: 'center',
-                                    padding: '10px',
-                                    border: '1px solid #ccc',
-                                    borderRadius: '5px',
-                                    backgroundColor: '#f9f9f9',
-                                }}
+                                className="flex justify-between items-center p-2 border border-gray-300 rounded bg-gray-100"
                             >
                                 <div>
-                                    <p style={{ margin: 0, fontWeight: 'bold' }}>{file.name}</p>
-                                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>{(file.size / 1024).toFixed(2)} KB</p>
+                                    <p className="m-0 font-bold">{file.name}</p>
+                                    <p className="m-0 text-sm text-gray-600">{(file.size / 1024).toFixed(2)} KB</p>
                                 </div>
                                 <button 
                                     onClick={(e) => {
                                         e.stopPropagation(); // Prevent event propagation
                                         handleRemoveFile(index);
                                     }} 
-                                    style={{
-                                        padding: '5px 10px',
-                                        backgroundColor: '#FF4D4D',
-                                        color: '#fff',
-                                        border: 'none',
-                                        borderRadius: '5px',
-                                        cursor: 'pointer',
-                                    }}
+                                    className="px-2 py-1 bg-red-500 text-white rounded cursor-pointer"
                                 >
                                     Remove
                                 </button>
@@ -118,22 +90,17 @@ const Upload = () => {
                         ))}
                     </div>
                     <button 
-                        onClick={handleUpload} 
-                        style={{
-                            marginTop: '20px',
-                            padding: '10px 20px',
-                            backgroundColor: '#007BFF',
-                            color: '#fff',
-                            border: 'none',
-                            borderRadius: '5px',
-                            cursor: 'pointer',
-                        }}
+                        onClick={(e) => {
+                            e.stopPropagation(); // Prevent event propagation
+                            handleUpload();
+                        }} 
+                        className="mt-5 px-5 py-2 bg-blue-500 text-white rounded cursor-pointer"
                     >
                         Upload Files
                     </button>
                 </div>
             )}
-            {message && <p style={{ marginTop: '20px', color: 'green' }}>{message}</p>}
+            {message && <p onClick={(e) => e.stopPropagation()} className={`mt-5 ${message.includes('error') ? 'text-red-500' : 'text-green-500'}`}>{message}</p>}
         </div>
     );
 };
