@@ -1,21 +1,25 @@
 import React from 'react';
 
 const Pagination = ({
-  currentPage,
   totalPages,
-  onPageChange,
+  currentPage,
   rowsPerPage,
+  onPageChange,
+  setStartFrom,
   onRowsPerPageChange,
 }) => {
-  const handlePageChange = (newPage) => {
+  const handlePageChange = (newPage, forward = true) => {
+    console.log("bla", newPage, totalPages)
     if (newPage >= 1 && newPage <= totalPages) {
+      console.log("bla")
       onPageChange(newPage);
+      setStartFrom(prev => prev + (forward ? rowsPerPage : -rowsPerPage))
     }
   };
 
   const generatePageNumbers = () => {
     if (totalPages <= 1) return [];
-    
+
     const pages = [];
     pages.push(1);
 
@@ -48,10 +52,10 @@ const Pagination = ({
       <div className="flex justify-center items-center gap-2 flex-wrap">
         <button
           className={`px-4 py-2 border rounded-md transition-all duration-300 
-            ${currentPage === 1 
-              ? 'bg-gray-100 cursor-not-allowed opacity-50' 
+            ${currentPage === 1
+              ? 'bg-gray-100 cursor-not-allowed opacity-50'
               : 'hover:bg-gray-100 bg-white border-gray-300'}`}
-          onClick={() => handlePageChange(currentPage - 1)}
+          onClick={() => handlePageChange(currentPage - 1, false)}
           disabled={currentPage === 1}
         >
           Previous
@@ -64,8 +68,8 @@ const Pagination = ({
             ) : (
               <button
                 className={`px-4 py-2 border rounded-md transition-all duration-300
-                  ${currentPage === page 
-                    ? 'bg-blue-500 text-white border-blue-500' 
+                  ${currentPage === page
+                    ? 'bg-blue-500 text-white border-blue-500'
                     : 'hover:bg-gray-100 bg-white border-gray-300'}`}
                 onClick={() => handlePageChange(page)}
                 disabled={currentPage === page}
@@ -78,10 +82,10 @@ const Pagination = ({
 
         <button
           className={`px-4 py-2 border rounded-md transition-all duration-300 
-            ${currentPage === totalPages 
-              ? 'bg-gray-100 cursor-not-allowed opacity-50' 
+            ${currentPage === totalPages
+              ? 'bg-gray-100 cursor-not-allowed opacity-50'
               : 'hover:bg-gray-100 bg-white border-gray-300'}`}
-          onClick={() => handlePageChange(currentPage + 1)}
+          onClick={() => handlePageChange(currentPage + 1, true)}
           disabled={currentPage === totalPages}
         >
           Next

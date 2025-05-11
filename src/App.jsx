@@ -12,6 +12,7 @@ import AccessibleDocuments from './AccessibleDocuments';
 import DocumentCategory from './DocumentCategory';
 import ArchiveDocuments from './ArchiveDocuments';
 import Settings from './Settings';
+import Upload from "./Upload.jsx";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -65,6 +66,15 @@ function App() {
           element={
             <AuthenticatedRoute>
               <Dashboard user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/upload"
+          element={
+            <AuthenticatedRoute>
+              <Upload />
             </AuthenticatedRoute>
           }
         />

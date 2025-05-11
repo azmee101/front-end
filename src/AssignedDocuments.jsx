@@ -5,6 +5,7 @@ const AllDocuments = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [documents, setDocuments] = useState([]);
+  const [startFrom, setStartFrom] = useState(0);
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -16,7 +17,7 @@ const AllDocuments = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3002/assignments?_page=${currentPage}&_limit=${rowsPerPage}`
+          `http://localhost:3002/assignments?_start=${startFrom}_page=${currentPage}&_limit=${rowsPerPage}`
         );
   
         if (!response.ok) throw new Error("Failed to fetch documents");
@@ -117,6 +118,7 @@ const AllDocuments = () => {
             totalPages={totalPages}
             onPageChange={setCurrentPage}
             rowsPerPage={rowsPerPage}
+            setStartFrom={setStartFrom}
             onRowsPerPageChange={(newSize) => {
               setRowsPerPage(newSize);
               setCurrentPage(1);

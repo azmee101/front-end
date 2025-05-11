@@ -5,26 +5,28 @@ const AllDocuments = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [documents, setDocuments] = useState([]);
+  const [startFrom, setStartFrom] = useState(0);
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const totalPages = Math.ceil(totalDocuments / rowsPerPage);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
+    totalDocuments;
     const fetchDocuments = async () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3001/documents?_page=${currentPage}&_limit=${rowsPerPage}`
+          `http://localhost:3001/documents?_start=${startFrom}_page=${currentPage}&_limit=${rowsPerPage}`
         );
-  
+
         if (!response.ok) throw new Error("Failed to fetch documents");
-        
+
         // Correct: Use the proper header name 'X-Total-Count'
-        const total = response.headers.get("X-Total-Count");
+        const total = response.headers.get('X-Total-Count');
+        console.log("toto", total)
         const data = await response.json();
-  
+        setTotalPages(Number(total) / rowsPerPage)
         setTotalDocuments(Number(total));
         setDocuments(data);
       } catch (err) {
@@ -33,7 +35,7 @@ const AllDocuments = () => {
         setLoading(false);
       }
     };
-  
+
     fetchDocuments();
   }, [currentPage, rowsPerPage]); // Ensure these dependencies are correct
 
@@ -113,11 +115,13 @@ const AllDocuments = () => {
 
         {/* Pagination */}
         <div className="flex justify-between items-center mt-4 text-sm bg-gray-200">
-        <Pagination  
+          <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
             rowsPerPage={rowsPerPage}
+            startFrom={startFrom}
+            setStartFrom={setStartFrom}
             onRowsPerPageChange={(newSize) => {
               setRowsPerPage(newSize);
               setCurrentPage(1);
