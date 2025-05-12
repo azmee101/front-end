@@ -1,18 +1,20 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Layout from './component/layout/Layout';
-
 import Login from "./Login";
 import Welcome from "./welcome";
 import AssignedDocuments from "./AssignedDocuments";
 import Dashboard from "./Dashboard";
-import Profile from "./Profile.jsx";
+import Profile from "./Profile";
 import AllDocuments from './AllDocuments';
 import AccessibleDocuments from './AccessibleDocuments';
 import DocumentCategory from './DocumentCategory';
 import ArchiveDocuments from './ArchiveDocuments';
 import Settings from './Settings';
-import Upload from "./Upload.jsx";
+import Upload from "./Upload";
+import FileRequest from "./FileRequest";
+import AddFileRequest from "./AddFileRequest";
+import SaveRequest from "./SaveRequest";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -111,6 +113,33 @@ function App() {
           element={
             <AuthenticatedRoute>
               <AccessibleDocuments />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/file-request"
+          element={
+            <AuthenticatedRoute>
+              <FileRequest />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/add-file-request"
+          element={
+            <AuthenticatedRoute>
+              <AddFileRequest />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/save-request"
+          element={
+            <AuthenticatedRoute>
+              <SaveRequest />
             </AuthenticatedRoute>
           }
         />

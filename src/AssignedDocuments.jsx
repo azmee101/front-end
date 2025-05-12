@@ -17,7 +17,7 @@ const AllDocuments = () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3002/assignments?_start=${startFrom}_page=${currentPage}&_limit=${rowsPerPage}`
+          `http://localhost:3001/documents?_start=${startFrom}_page=${currentPage}&_limit=${rowsPerPage}`
         );
   
         if (!response.ok) throw new Error("Failed to fetch documents");
