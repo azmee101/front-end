@@ -151,7 +151,6 @@ const Sidebar = ({ onLogout }) => {
             </svg>
             Archive Document
           </button>
-
           <button
             className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
             onClick={() => navigate("/file-request")}
@@ -171,8 +170,6 @@ const Sidebar = ({ onLogout }) => {
             </svg>
             File Request
           </button>
-
-          
 
           <button
             className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
