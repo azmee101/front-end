@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Pagination from "./component/layout/pagination_component";
 import { useNavigate } from "react-router-dom";
+import Action from "./component/layout/Action";
 
 const FileRequest = () => {
   const navigate = useNavigate();
@@ -87,8 +88,10 @@ const FileRequest = () => {
                 </tr>
               </thead>
               <tbody className="[&_tr]:border-b [&_td]:py-2 [&_td]:px-4">
-                {documents.map((document) => (
-                  <tr key={document.id}>                    <td className="py-2 px-4">-</td>
+                {documents.map((document) => (                  <tr key={document.id}>
+                    <td className="py-2 px-4">
+                      <Action />
+                    </td>
                     <td className="truncate max-w-[200px] text-blue-500">
                       {document.subject}
                     </td>
