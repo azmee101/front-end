@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import Pagination from "./component/layout/pagination_component";
 import Action from "./component/layout/Action";
 
@@ -29,6 +29,40 @@ const AllDocuments = () => {
       [name]: value
     }));
   };
+
+  const fetchDocuments = useCallback(async () => {
+    try {
+      setLoading(true);
+      // First get total count
+      const countResponse = await fetch('http://localhost:3001/documents');
+      const allDocuments = await countResponse.json();
+      const total = allDocuments.length;
+      setTotalDocuments(total);
+
+      // Then fetch the paginated data
+      let url = `http://localhost:3001/documents`;
+      if (rowsPerPage !== Infinity) {
+        url += `?_start=${startFrom}&_limit=${rowsPerPage}`;
+      }
+      
+      const response = await fetch(url);
+      if (!response.ok) throw new Error("Failed to fetch documents");
+
+      const data = await response.json();
+      const processedData = rowsPerPage === Infinity ? data : data.slice(0, rowsPerPage);
+      setDocuments(processedData);
+      setFilteredDocuments(processedData);
+      setTotalPages(Math.ceil(total / (rowsPerPage === Infinity ? total : rowsPerPage)));
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }, [startFrom, rowsPerPage]);
+
+  useEffect(() => {
+    fetchDocuments();
+  }, [fetchDocuments]);
 
   useEffect(() => {
     if (!documents.length) return;
@@ -78,30 +112,11 @@ const AllDocuments = () => {
     setTotalPages(Math.ceil(filtered.length / rowsPerPage));
   }, [documents, filters, rowsPerPage]);
 
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      try {
-        setLoading(true);
-        const response = await fetch(
-          `http://localhost:3001/documents?_start=${startFrom}_page=${currentPage}&_limit=${rowsPerPage}`
-        );
-
-        if (!response.ok) throw new Error("Failed to fetch documents");
-
-        const total = response.headers.get('X-Total-Count');
-        const data = await response.json();
-        setTotalPages(Number(total) / rowsPerPage);
-        setTotalDocuments(Number(total));
-        setDocuments(data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchDocuments();
-  }, [currentPage, rowsPerPage, startFrom, totalDocuments]);
+  const handleRowsPerPageChange = (newSize) => {
+    setRowsPerPage(newSize);
+    setCurrentPage(1);
+    setStartFrom(0);
+  };
 
   if (loading) return <div className="p-4">Loading documents...</div>;
   if (error) return <div className="p-4 text-red-500">Error: {error}</div>;
@@ -219,11 +234,11 @@ const AllDocuments = () => {
             rowsPerPage={rowsPerPage}
             startFrom={startFrom}
             setStartFrom={setStartFrom}
-            onRowsPerPageChange={(newSize) => {
-              setRowsPerPage(newSize);
-              setCurrentPage(1);
-            }}
+            onRowsPerPageChange={handleRowsPerPageChange}
           />
+          <div className="px-4 text-gray-600">
+            Total Documents: {totalDocuments}
+          </div>
         </div>
       </div>
     </div>

@@ -1,5 +1,6 @@
 // components/VerticalDotMenu.jsx
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { 
   FaEye, 
   FaEdit, 
@@ -14,8 +15,111 @@ import {
   FaTrash
 } from 'react-icons/fa';
 
-const Action = () => {
+const Action = ({ variant = 'default', rowData, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+
+  const handleDelete = async () => {
+    if (window.confirm("Are you sure you want to delete this file request?")) {
+      try {
+        setIsOpen(false);
+        if (onDelete) {
+          await onDelete(rowData.id);
+        }
+      } catch (error) {
+        console.error('Error in delete:', error);
+      }
+    }
+  };  const handleMenuItemClick = async (action) => {
+    switch (action) {
+      case "View":
+      case "Edit":
+        navigate("/add-file-request", { 
+          state: { 
+            rowData,
+            mode: action.toLowerCase(),
+            returnPath: window.location.pathname
+          } 
+        });
+        break;
+      case "Assign Document":
+        navigate("/assign-document", {
+          state: {
+            rowData,
+            mode: 'assign',
+            returnPath: window.location.pathname
+          }
+        });
+        break;
+      case "Delete":
+        await handleDelete();
+        break;
+      default:
+        break;
+    }
+  };
+
+  const MenuItem = ({ icon, text, danger = false }) => (
+    <button 
+      className={`flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors ${
+        danger ? 'text-red-600 hover:bg-red-50' : 'text-gray-800'
+      }`}
+      onClick={() => handleMenuItemClick(text)}
+    >
+      <span className="text-lg">{icon}</span>
+      <span className="text-sm font-medium">{text}</span>
+    </button>
+  );
+
+  const renderMenuItems = () => {
+    switch (variant) {
+      case 'fileRequest':
+        return (
+          <>
+            <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
+            <MenuItem icon={<FaLink className="text-blue-600" />} text="Assign Document" />
+            <div className="border-t border-gray-200 my-2" />
+            <MenuItem 
+              icon={<FaTrash className="text-red-600" />} 
+              text="Delete" 
+              danger
+            />
+          </>
+        );
+      default:
+        return (
+          <>
+            <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
+            <MenuItem icon={<FaEdit className="text-blue-600" />} text="Edit" />
+            <MenuItem icon={<FaShare className="text-green-600" />} text="Share" />
+            <MenuItem icon={<FaLink className="text-purple-600" />} text="Get Shareable Link" />
+            
+            <div className="border-t border-gray-200 my-2" />
+            
+            <MenuItem icon={<FaUpload className="text-orange-600" />} text="Upload New Version" />
+            <MenuItem icon={<FaHistory className="text-amber-600" />} text="Version History" />
+            
+            <div className="border-t border-gray-200 my-2" />
+            
+            <MenuItem icon={<FaComment className="text-sky-600" />} text="Comment" />
+            <MenuItem icon={<FaBell className="text-pink-600" />} text="Add Reminder" />
+            <MenuItem icon={<FaEnvelope className="text-rose-600" />} text="Send Email" />
+            
+            <div className="border-t border-gray-200 my-2" />
+            
+            <MenuItem icon={<FaArchive className="text-indigo-600" />} text="Archive" />
+            
+            <div className="border-t border-gray-200 my-2" />
+            
+            <MenuItem 
+              icon={<FaTrash className="text-red-600" />} 
+              text="Delete" 
+              danger
+            />
+          </>
+        );
+    }
+  };
 
   return (
     <div className="relative inline-block">
@@ -44,47 +148,12 @@ const Action = () => {
       {isOpen && (
         <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white border border-gray-200 rounded-xl shadow-xl z-[1000] min-w-[280px] py-3">
           <div className="flex flex-col space-y-2">
-            <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
-            <MenuItem icon={<FaEdit className="text-blue-600" />} text="Edit" />
-            <MenuItem icon={<FaShare className="text-green-600" />} text="Share" />
-            <MenuItem icon={<FaLink className="text-purple-600" />} text="Get Shareable Link" />
-            
-            <div className="border-t border-gray-200 my-2" />
-            
-            <MenuItem icon={<FaUpload className="text-orange-600" />} text="Upload New Version" />
-            <MenuItem icon={<FaHistory className="text-amber-600" />} text="Version History" />
-            
-            <div className="border-t border-gray-200 my-2" />
-            
-            <MenuItem icon={<FaComment className="text-sky-600" />} text="Comment" />
-            <MenuItem icon={<FaBell className="text-pink-600" />} text="Add Reminder" />
-            <MenuItem icon={<FaEnvelope className="text-rose-600" />} text="Send Email" />
-            
-            <div className="border-t border-gray-200 my-2" />
-            
-            <MenuItem icon={<FaArchive className="text-indigo-600" />} text="Archive" />
-            
-            <div className="border-t border-gray-200 my-2" />
-            
-            <MenuItem 
-              icon={<FaTrash className="text-red-600" />} 
-              text="Delete" 
-              danger
-            />
+            {renderMenuItems()}
           </div>
         </div>
       )}
     </div>
   );
 };
-
-const MenuItem = ({ icon, text, danger = false }) => (
-  <button className={`flex items-center gap-3 px-4 py-2.5 hover:bg-gray-50 transition-colors ${
-    danger ? 'text-red-600 hover:bg-red-50' : 'text-gray-800'
-  }`}>
-    <span className="text-lg">{icon}</span>
-    <span className="text-sm font-medium">{text}</span>
-  </button>
-);
 
 export default Action;

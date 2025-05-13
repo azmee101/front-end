@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const AddFileRequest = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const rowData = location.state?.rowData;
+  const mode = location.state?.mode || 'add'; // Can be 'add', 'view', or 'edit'
+  const returnPath = location.state?.returnPath || '/file-request';
+
   const [formData, setFormData] = useState({
     subject: "",
     email: "",
@@ -26,6 +31,44 @@ const AddFileRequest = () => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showCancellation, setShowCancellation] = useState(false);
 
+  useEffect(() => {
+    // Disable all form inputs in view mode
+    const formInputs = document.querySelectorAll('input, select, button');
+    if (mode === 'view') {
+      formInputs.forEach(input => {
+        if (input.type !== 'submit' && input.type !== 'button') {
+          input.disabled = true;
+        }
+      });
+    }
+
+    if (rowData) {
+      // Convert array of extensions to matching select option
+      let fileExtOption = "";
+      if (rowData.allowedExtensions.includes(".pdf")) {
+        fileExtOption = "pdf";
+      } else if (rowData.allowedExtensions.includes(".doc")) {
+        fileExtOption = "doc";
+      } else if (rowData.allowedExtensions.includes(".jpg")) {
+        fileExtOption = "image";
+      }
+
+      setFormData({
+        subject: rowData.subject || "",
+        email: rowData.email || "",
+        fileExtension: fileExtOption,
+        maxDocuments: parseInt(rowData.maxDocuments) || 1,
+        maxFileSize: rowData.maxFileSize || "Less than 5 MB",
+        password: "",
+        expiryDate: rowData.linkExpiration ? new Date(rowData.linkExpiration).toISOString().split('T')[0] : ""
+      });
+
+      // Set the checkbox states based on data
+      setIsPasswordRequired(false); // Reset password requirement
+      setIsLinkValid(!!rowData.linkExpiration);
+    }
+  }, [rowData, mode]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -41,7 +84,7 @@ const AddFileRequest = () => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const newErrors = {};
 
     // Validate subject
@@ -67,13 +110,81 @@ const AddFileRequest = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      // Show success message
-      setShowSuccess(true);
-      // Hide success message after 2 seconds and redirect
-      setTimeout(() => {
-        setShowSuccess(false);
-        navigate('/file-request');
-      }, 2000);
+      try {
+        // First, get all documents to find the last ID
+        const response = await fetch('http://localhost:3001/documents');
+        const existingDocs = await response.json();
+        const lastId = Math.max(...existingDocs.map(doc => doc.id), 0);
+        
+        // Create new document object
+        const newDocument = {
+          id: lastId + 1,
+          refno: `DMS-${String(lastId + 1).padStart(3, '0')}`,
+          subject: formData.subject,
+          email: formData.email,
+          maxFileSize: formData.maxFileSize,
+          maxDocuments: formData.maxDocuments,
+          allowedExtensions: getAllowedExtensions(formData.fileExtension),
+          status: "Created",
+          name: `Document_${lastId + 1}.${getDefaultExtension(formData.fileExtension)}`,
+          category: formData.fileExtension,
+          storage: "Cloud Storage",
+          client: "Client A",
+          createdDate: new Date().toLocaleDateString(),
+          linkExpiration: isLinkValid ? formData.expiryDate : "",
+          createdBy: formData.email.split('@')[0]
+        };
+
+        // Add the new document
+        const addResponse = await fetch('http://localhost:3001/documents', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newDocument)
+        });
+
+        if (!addResponse.ok) {
+          throw new Error('Failed to add new document');
+        }
+
+        // Show success message
+        setShowSuccess(true);
+        // Hide success message after 2 seconds and redirect
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate('/file-request');
+        }, 2000);
+      } catch (error) {
+        console.error('Error adding document:', error);
+        alert('Failed to add document. Please try again.');
+      }
+    }
+  };
+
+  const getAllowedExtensions = (fileType) => {
+    switch (fileType) {
+      case 'pdf':
+        return ['.pdf'];
+      case 'doc':
+        return ['.doc', '.docx'];
+      case 'image':
+        return ['.jpg', '.png'];
+      default:
+        return [];
+    }
+  };
+
+  const getDefaultExtension = (fileType) => {
+    switch (fileType) {
+      case 'pdf':
+        return 'pdf';
+      case 'doc':
+        return 'docx';
+      case 'image':
+        return 'jpg';
+      default:
+        return '';
     }
   };
 
@@ -81,7 +192,7 @@ const AddFileRequest = () => {
     setShowCancellation(true);
     setTimeout(() => {
       setShowCancellation(false);
-      navigate('/file-request');
+      navigate(returnPath);
     }, 2000);
   };
 
@@ -90,7 +201,7 @@ const AddFileRequest = () => {
       {/* Success Toast */}
       {showSuccess && (
         <div className="fixed top-4 right-4 flex items-center bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
-          <span>Request submitted successfully!</span>
+          <span>{mode === 'edit' ? 'Request updated successfully!' : 'Request submitted successfully!'}</span>
         </div>
       )}
 
@@ -101,7 +212,9 @@ const AddFileRequest = () => {
         </div>
       )}
 
-      <h2 className="text-2xl font-semibold mb-6">Add File Request</h2>
+      <h2 className="text-2xl font-semibold mb-6">
+        {mode === 'view' ? 'View File Request' : mode === 'edit' ? 'Edit File Request' : 'Add File Request'}
+      </h2>
 
       <div className="bg-white rounded-lg p-6 shadow border border-gray-200">
         <div className="space-y-6">
@@ -234,7 +347,7 @@ const AddFileRequest = () => {
                           strokeLinecap="round"
                           strokeLinejoin="round"
                           strokeWidth={2}
-                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
+                          d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c-4.478 0-8.268 2.943-9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"
                         />
                       )}
                     </svg>
@@ -282,15 +395,17 @@ const AddFileRequest = () => {
 
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
-            <button 
-              onClick={handleSubmit}
-              className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium flex items-center gap-2"
-            >
-              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
-              </svg>
-              Save
-            </button>
+            {mode !== 'view' && (
+              <button 
+                onClick={handleSubmit}
+                className="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium flex items-center gap-2"
+              >
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-3m-1 4l-3 3m0 0l-3-3m3 3V4" />
+                </svg>
+                {mode === 'edit' ? 'Update' : 'Save'}
+              </button>
+            )}
             <button 
               onClick={handleCancel}
               className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 text-sm font-medium flex items-center gap-2"
@@ -298,7 +413,7 @@ const AddFileRequest = () => {
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
-              Cancel
+              {mode === 'view' ? 'Back' : 'Cancel'}
             </button>
           </div>
         </div>

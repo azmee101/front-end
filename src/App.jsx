@@ -11,11 +11,13 @@ import AccessibleDocuments from './AccessibleDocuments';
 import DocumentCategory from './DocumentCategory';
 import ArchiveDocuments from './ArchiveDocuments';
 import Settings from './Settings';
-import Upload from "./Upload";
 import FileRequest from "./FileRequest";
 import AddFileRequest from "./AddFileRequest";
 import SaveRequest from "./SaveRequest";
 import Action from "./component/layout/Action";
+import AddDocument from "./AddDocument";
+import PendingFileRequest from "./PendingFileRequest";
+import AssignDocument from "./AssignDocument";
 
 function App() {
   const [user, setUser] = useState(null);
@@ -64,8 +66,6 @@ function App() {
           }
         />
 
-
-
         <Route
           path="/dashboard"
           element={
@@ -76,10 +76,10 @@ function App() {
         />
 
         <Route
-          path="/upload"
+          path="/assign-document"
           element={
             <AuthenticatedRoute>
-              <Upload />
+              <AssignDocument />
             </AuthenticatedRoute>
           }
         />
@@ -130,6 +130,15 @@ function App() {
         />
 
         <Route
+          path="/pending-file-request"
+          element={
+            <AuthenticatedRoute>
+              <PendingFileRequest />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
           path="/add-file-request"
           element={
             <AuthenticatedRoute>
@@ -170,6 +179,15 @@ function App() {
           element={
             <AuthenticatedRoute>
               <Settings user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/add-document"
+          element={
+            <AuthenticatedRoute>
+              <AddDocument />
             </AuthenticatedRoute>
           }
         />
