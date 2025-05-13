@@ -8,9 +8,9 @@ const Login = ({ setUser }) => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    // Clear localStorage and form data on component mount
+    // Clear localStorage if any previous user already log in.
     localStorage.removeItem('currentUser');
-    setFormData({ email: '', password: '' });
+    setFormData({ email: '', password: '' }); // setting the form empty
     
     const loadUsers = async () => {
       try {
