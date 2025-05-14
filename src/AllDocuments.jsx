@@ -4,7 +4,7 @@ import Action from "./component/layout/Action";
 
 const AllDocuments = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(Infinity);
   const [documents, setDocuments] = useState([]);
   const [filteredDocuments, setFilteredDocuments] = useState([]);
   const [startFrom, setStartFrom] = useState(0);
@@ -33,23 +33,46 @@ const AllDocuments = () => {
   const fetchDocuments = useCallback(async () => {
     try {
       setLoading(true);
-      // First get total count
-      const countResponse = await fetch('http://localhost:3001/documents');
-      const allDocuments = await countResponse.json();
-      const total = allDocuments.length;
+
+      // Fetch both regular documents and assigned documents
+      const [documentsResponse, assignedResponse] = await Promise.all([
+        fetch('http://localhost:3001/documents'),
+        fetch('http://localhost:3001/assignedDocuments')
+      ]);
+
+      if (!documentsResponse.ok || !assignedResponse.ok) {
+        throw new Error("Failed to fetch documents");
+      }
+
+      const regularDocs = await documentsResponse.json();
+      const assignedDocs = await assignedResponse.json();
+
+      // Add a type flag to distinguish between regular and assigned documents
+      const processedRegularDocs = regularDocs.map(doc => ({
+        ...doc,
+        docType: 'regular'
+      }));
+
+      const processedAssignedDocs = assignedDocs.map(doc => ({
+        id: doc.id,
+        name: doc.name || doc.name,
+        category: doc.category || '-',
+        storage: doc.storage || '-',
+        client: '-',
+        createdDate: doc.assignedDate,
+        expiredDate: '-',
+        createdBy: `${doc.createdBy} (Assigned to: ${doc.assignedTo})`,
+        docType: 'assigned',
+        reference: doc.reference
+      }));
+
+      // Combine both types of documents
+      const allDocs = [...processedRegularDocs, ...processedAssignedDocs];
+      const total = allDocs.length;
       setTotalDocuments(total);
 
-      // Then fetch the paginated data
-      let url = `http://localhost:3001/documents`;
-      if (rowsPerPage !== Infinity) {
-        url += `?_start=${startFrom}&_limit=${rowsPerPage}`;
-      }
-      
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch documents");
-
-      const data = await response.json();
-      const processedData = rowsPerPage === Infinity ? data : data.slice(0, rowsPerPage);
+      // Handle pagination
+      const processedData = rowsPerPage === Infinity ? allDocs : allDocs.slice(startFrom, startFrom + rowsPerPage);
       setDocuments(processedData);
       setFilteredDocuments(processedData);
       setTotalPages(Math.ceil(total / (rowsPerPage === Infinity ? total : rowsPerPage)));
@@ -206,9 +229,8 @@ const AllDocuments = () => {
                   <th className="text-left py-2 px-4">Created By</th>
                 </tr>
               </thead>
-              <tbody className="[&_tr]:border-b [&_td]:py-2 [&_td]:px-4">
-                {currentDocuments.map((document) => (
-                  <tr key={document.id}>
+              <tbody className="[&_tr]:border-b [&_td]:py-2 [&_td]:px-4">                {currentDocuments.map((document) => (
+                  <tr key={document.id} className={document.docType === 'assigned' ? 'bg-blue-50' : ''}>
                     <td className="py-2 px-4">
                       <Action variant="AllDocuments"/>
                     </td>
