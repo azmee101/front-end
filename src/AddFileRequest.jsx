@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { getCurrentUser } from "./utility/userUtils";
 
 const AddFileRequest = () => {
   const navigate = useNavigate();
@@ -111,53 +112,60 @@ const AddFileRequest = () => {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        // First, get all documents to find the last ID
-        const response = await fetch('http://localhost:3001/documents');
-        const existingDocs = await response.json();
-        const lastId = Math.max(...existingDocs.map(doc => doc.id), 0);
-        
-        // Create new document object
-        const newDocument = {
-          id: lastId + 1,
-          refno: `DMS-${String(lastId + 1).padStart(3, '0')}`,
+        const currentUser = getCurrentUser();
+        let documentEndpoint = 'http://localhost:3001/documents';
+        let method = 'POST';
+
+        // If in edit mode, update existing document
+        if (mode === 'edit' && rowData) {
+          documentEndpoint = `${documentEndpoint}/${rowData.id}`;
+          method = 'PUT';
+        }
+
+        // Create document object
+        const documentData = {
+          ...(rowData && { id: rowData.id }), // Keep existing ID if editing
+          refno: rowData ? rowData.refno : `DMS-${String(Date.now()).slice(-3)}`,
           subject: formData.subject,
           email: formData.email,
           maxFileSize: formData.maxFileSize,
           maxDocuments: formData.maxDocuments,
           allowedExtensions: getAllowedExtensions(formData.fileExtension),
-          status: "Created",
-          name: `Document_${lastId + 1}.${getDefaultExtension(formData.fileExtension)}`,
+          status: rowData ? rowData.status : "Created",
+          name: rowData ? rowData.name : `Document_${Date.now()}.${getDefaultExtension(formData.fileExtension)}`,
           category: formData.fileExtension,
           storage: "Cloud Storage",
           client: "Client A",
-          createdDate: new Date().toLocaleDateString(),
+          createdDate: rowData ? rowData.createdDate : new Date().toLocaleDateString(),
           linkExpiration: isLinkValid ? formData.expiryDate : "",
-          createdBy: formData.email.split('@')[0]
+          createdBy: currentUser.name,
+          createdById: currentUser.user_id,
         };
 
-        // Add the new document
-        const addResponse = await fetch('http://localhost:3001/documents', {
-          method: 'POST',
+        // Send request
+        const response = await fetch(documentEndpoint, {
+          method: method,
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(newDocument)
+          body: JSON.stringify(documentData)
         });
 
-        if (!addResponse.ok) {
-          throw new Error('Failed to add new document');
+        if (!response.ok) {
+          throw new Error(mode === 'edit' ? 'Failed to update document' : 'Failed to add document');
         }
 
         // Show success message
         setShowSuccess(true);
-        // Hide success message after 2 seconds and redirect
+        
+        // Hide success message after 2 seconds and redirect back
         setTimeout(() => {
           setShowSuccess(false);
-          navigate('/file-request');
+          navigate(returnPath); // Use the returnPath from location state
         }, 2000);
       } catch (error) {
-        console.error('Error adding document:', error);
-        alert('Failed to add document. Please try again.');
+        console.error('Error:', error);
+        alert(`Failed to ${mode === 'edit' ? 'update' : 'add'} document. Please try again.`);
       }
     }
   };

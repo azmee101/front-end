@@ -20,7 +20,11 @@ const Action = ({ variant = 'default', rowData, onDelete }) => {
   const navigate = useNavigate();
 
   const handleDelete = async () => {
-    if (window.confirm("Are you sure you want to delete this file request?")) {
+    const message = window.location.pathname === '/pending-file-request' 
+      ? "Are you sure you want to cancel this file request?" 
+      : "Are you sure you want to delete this file request?";
+    
+    if (window.confirm(message)) {
       try {
         setIsOpen(false);
         if (onDelete) {
@@ -30,27 +34,38 @@ const Action = ({ variant = 'default', rowData, onDelete }) => {
         console.error('Error in delete:', error);
       }
     }
-  };  const handleMenuItemClick = async (action) => {
+  };
+
+  const handleMenuItemClick = async (action) => {
     switch (action) {
       case "View":
-      case "Edit":
         navigate("/add-file-request", { 
           state: { 
             rowData,
-            mode: action.toLowerCase(),
+            mode: 'view',
             returnPath: window.location.pathname
           } 
         });
         break;
       case "Assign Document":
-        navigate("/assign-document", {
-          state: {
+        navigate("/add-document", { 
+          state: { 
             rowData,
-            mode: 'assign',
+            mode: 'add',
             returnPath: window.location.pathname
-          }
+          } 
         });
         break;
+      case "Edit":
+        navigate("/add-file-request", { 
+          state: { 
+            rowData,
+            mode: 'edit',
+            returnPath: window.location.pathname
+          } 
+        });
+        break;
+      case "Cancel":
       case "Delete":
         await handleDelete();
         break;
@@ -72,21 +87,25 @@ const Action = ({ variant = 'default', rowData, onDelete }) => {
   );
 
   const renderMenuItems = () => {
+    const isPendingFileRequest = window.location.pathname === '/pending-file-request';
+
+    if (variant === 'fileRequest' && isPendingFileRequest) {
+      return (
+        <>
+          <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
+          <MenuItem icon={<FaEdit className="text-blue-600" />} text="Assign Document" />
+          <div className="border-t border-gray-200 my-2" />
+          <MenuItem 
+            icon={<FaTrash className="text-red-600" />} 
+            text="Cancel" 
+            danger
+          />
+        </>
+      );
+    }
+
     switch (variant) {
       case 'fileRequest':
-        return (
-          <>
-            <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
-            <MenuItem icon={<FaLink className="text-blue-600" />} text="Assign Document" />
-            <div className="border-t border-gray-200 my-2" />
-            <MenuItem 
-              icon={<FaTrash className="text-red-600" />} 
-              text="Delete" 
-              danger
-            />
-          </>
-        );
-      default:
         return (
           <>
             <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
@@ -111,6 +130,19 @@ const Action = ({ variant = 'default', rowData, onDelete }) => {
             
             <div className="border-t border-gray-200 my-2" />
             
+            <MenuItem 
+              icon={<FaTrash className="text-red-600" />} 
+              text="Delete" 
+              danger
+            />
+          </>
+        );
+      default:
+        return (
+          <>
+            <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
+            <MenuItem icon={<FaEdit className="text-blue-600" />} text="Edit" />
+            <div className="border-t border-gray-200 my-2" />
             <MenuItem 
               icon={<FaTrash className="text-red-600" />} 
               text="Delete" 

@@ -1,17 +1,46 @@
-import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from "react-router-dom";
+import { getCurrentUser } from './utility/userUtils';
 
 const AddDocument = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { rowData, mode } = location.state || {};
+  const isAssignMode = mode === 'assign';
   const [showSuccess, setShowSuccess] = useState(false);
-  const [showCancellation, setShowCancellation] = useState(false);  const [formData, setFormData] = useState({
+  const [showCancellation, setShowCancellation] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [formData, setFormData] = useState({
     documentUpload: null,
+    reference: rowData?.refno || '',
     name: '',
     category: '',
     storage: 'Local Disk (Default)',
     description: '',
-    metaTags: ['']
+    metaTags: [''],
+    assignedTo: '',
+    assignedBy: ''
   });
+
+  // Set reference ID when rowData changes
+  useEffect(() => {
+    if (rowData?.refno) {
+      setFormData(prev => ({
+        ...prev,
+        reference: rowData.refno
+      }));
+    }
+  }, [rowData]);
+  
+  useEffect(() => {
+    if (rowData) {
+      setFormData(prev => ({
+        ...prev,
+        reference: rowData.refno || ''
+      }));
+    }
+  }, [rowData]);
 
   const [errors, setErrors] = useState({
     documentUpload: '',
@@ -19,12 +48,15 @@ const AddDocument = () => {
     category: '',
     description: ''
   });
-
   const handleFileChange = (e) => {
-    setFormData({
-      ...formData,
-      documentUpload: e.target.files[0]
-    });
+    // Just store the file info in state, we won't actually upload it
+    const file = e.target.files[0];
+    if (file) {
+      setFormData({
+        ...formData,
+        documentUpload: file
+      });
+    }
   };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -63,15 +95,17 @@ const AddDocument = () => {
       ...prevData,
       metaTags: prevData.metaTags.filter((_, i) => i !== index)
     }));
-  };  const handleSave = (e) => {
-    e.preventDefault();
-    
-    const newErrors = {};
+  };  
+  
+  const handleError = (message) => {
+    setErrorMessage(message);
+    setShowError(true);
+    setTimeout(() => setShowError(false), 3000);
+  };
 
-    // Validate document upload
-    if (!formData.documentUpload) {
-      newErrors.documentUpload = "Document upload is required";
-    }
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const newErrors = {};
 
     // Validate name
     if (!formData.name.trim()) {
@@ -88,18 +122,98 @@ const AddDocument = () => {
       newErrors.description = "Description is required";
     }
 
+    // Validate assigned fields in assign mode
+    if (isAssignMode && (!formData.assignedTo && !rowData?.user?.name)) {
+      newErrors.assignedTo = "Assigned To is required";
+    }
+
     setErrors(newErrors);
 
-    // Only proceed if there are no errors
     if (Object.keys(newErrors).length === 0) {
-      // Show success message
-      setShowSuccess(true);
-      
-      // Hide success message after 2 seconds and redirect
-      setTimeout(() => {
-        setShowSuccess(false);
-        navigate('/assigned-documents');
-      }, 2000);
+      try {
+        const currentUser = getCurrentUser();
+        if (!currentUser) {
+          throw new Error('No user is logged in');
+        }        // Create document data with file path
+        const documentId = Date.now().toString();
+        const fileName = formData.documentUpload ? formData.documentUpload.name : 'document.pdf';
+        const filePath = `/assets/assignDocuments/${documentId}_${fileName}`;
+        
+        const newDocument = {
+          id: documentId,
+          documentId: Math.floor(Math.random() * 10000).toString(),
+          name: formData.name,
+          fileName: `${documentId}_${fileName}`,
+          originalName: fileName,
+          fileType: formData.documentUpload ? formData.documentUpload.type : 'application/pdf',
+          fileSize: formData.documentUpload ? formData.documentUpload.size : 0,
+          category: formData.category,
+          storage: formData.storage,
+          description: formData.description,
+          metaTags: formData.metaTags.filter(tag => tag.trim() !== ''),
+          filePath: filePath,
+          reference: formData.reference,
+          assignedDate: new Date().toLocaleDateString(),
+          status: 'Assigned',
+          createdBy: currentUser.username,
+          createdById: currentUser.user_id,
+          assignedTo: rowData?.user?.name || '',
+          assignedBy: currentUser.username,
+          assignedById: currentUser.user_id
+        };
+
+        // First, fetch and update the original document's status if we have a reference
+        if (formData.reference) {
+          try {
+            const documentsResponse = await fetch('http://localhost:3001/documents');
+            const documents = await documentsResponse.json();
+            const documentToUpdate = documents.find(doc => doc.refno === formData.reference);
+            
+            if (documentToUpdate) {
+              const updateResponse = await fetch(`http://localhost:3001/documents/${documentToUpdate.id}`, {
+                method: 'PATCH',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  status: 'Uploaded'
+                })
+              });
+
+              if (!updateResponse.ok) {
+                console.error('Failed to update document status');
+              }
+            }
+          } catch (error) {
+            console.error('Error updating document status:', error);
+          }
+        }
+
+        // Then save the new assigned document
+        const saveResponse = await fetch('http://localhost:3001/assignedDocuments', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(newDocument)
+        });
+
+        if (!saveResponse.ok) {
+          const errorText = await saveResponse.text();
+          throw new Error(errorText || 'Failed to save document');
+        }
+
+        // Show success message
+        setShowSuccess(true);
+        setTimeout(() => {
+          setShowSuccess(false);
+          navigate('/assigned-documents');
+        }, 2000);
+
+      } catch (error) {
+        console.error('Error:', error);
+        handleError(error.message || 'An unexpected error occurred. Please try again.');
+      }
     }
   };
 
@@ -107,9 +221,10 @@ const AddDocument = () => {
     setShowCancellation(true);
     setTimeout(() => {
       setShowCancellation(false);
-      navigate('/assigned-documents');
+      navigate(-1); // Navigate back to previous page
     }, 2000);
   };
+
   return (
     <div className="flex-1 p-8">
       {/* Success Toast */}
@@ -126,11 +241,25 @@ const AddDocument = () => {
         </div>
       )}
 
+      {/* Error Toast */}
+      {showError && (
+        <div className="fixed top-4 right-4 flex items-center bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
+          <span>{errorMessage}</span>
+        </div>
+      )}
+
       <form onSubmit={handleSave} className="space-y-6">
+        {/* Error Display */}
+        {(errors.submit || errorMessage) && (
+          <div className="bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded">
+            {errors.submit || errorMessage}
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           {/* Document Upload */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Document Upload</label>            <div className="mt-1">
+            <label className="block text-sm font-medium text-gray-700 mb-2">Document Upload</label>
+            <div className="mt-1">
               <input
                 type="file"
                 onChange={handleFileChange}
@@ -142,6 +271,34 @@ const AddDocument = () => {
                 <p className="mt-1 text-sm text-red-600">{errors.documentUpload}</p>
               )}
             </div>
+          </div>          {/* Reference ID - Always shown but can be readonly */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Reference ID</label>
+            <div className="relative">
+              <input
+                type="text"
+                name="reference"
+                value={formData.reference}
+                readOnly={isAssignMode}
+                disabled={isAssignMode}
+                className={`mt-1 block w-full rounded-md shadow-sm ${
+                  isAssignMode 
+                    ? 'border-blue-300 bg-blue-50 text-blue-800 font-medium' 
+                    : 'border-gray-300 bg-white'
+                } focus:border-blue-500 focus:ring-blue-500`}
+              />
+              {isAssignMode && (
+                <div className="absolute inset-y-0 right-0 flex items-center pr-3 text-blue-600">
+                  <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9 2a1 1 0 000 2h2a1 1 0 100-2H9z" />
+                    <path fillRule="evenodd" d="M4 5a2 2 0 012-2 3 3 0 003 3h2a3 3 0 003-3 2 2 0 012 2v11a2 2 0 01-2 2H6a2 2 0 01-2-2V5zm3 4a1 1 0 000 2h.01a1 1 0 100-2H7zm3 0a1 1 0 000 2h3a1 1 0 100-2h-3zm-3 4a1 1 0 100 2h.01a1 1 0 100-2H7zm3 0a1 1 0 100 2h3a1 1 0 100-2h-3z" clipRule="evenodd" />
+                  </svg>
+                </div>
+              )}
+            </div>
+            {isAssignMode && (
+              <p className="mt-1 text-sm text-blue-600">Auto-filled from the file request</p>
+            )}
           </div>
 
           {/* Name */}
@@ -151,7 +308,8 @@ const AddDocument = () => {
               type="text"
               name="name"
               value={formData.name}
-              onChange={handleInputChange}              className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
+              onChange={handleInputChange}
+              className={`mt-1 block w-full rounded-md shadow-sm focus:border-blue-500 focus:ring-blue-500 ${
                 errors.name ? 'border-red-500' : 'border-gray-300'
               }`}
             />
@@ -186,9 +344,7 @@ const AddDocument = () => {
             {errors.category && (
               <p className="mt-1 text-sm text-red-600">{errors.category}</p>
             )}
-          </div>
-
-          {/* Storage */}
+          </div>          {/* Storage */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Storage</label>
             <select
@@ -202,6 +358,33 @@ const AddDocument = () => {
               <option value="Network Drive">Network Drive</option>
               <option value="Local Disk (Backup)">Local Disk (Backup)</option>
             </select>
+          </div>
+
+          {/* Assigned To - Only shown in assign mode */}
+          {isAssignMode && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Assigned To</label>
+              <input
+                type="text"
+                name="assignedTo"
+                value={formData.assignedTo || (rowData?.user?.name || '')}
+                readOnly
+                className="mt-1 block w-full rounded-md bg-gray-50 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              <p className="mt-1 text-sm text-blue-600">Auto-filled from the file request</p>
+            </div>
+          )}
+
+          {/* Assigned By - Always shown but readonly */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Assigned By</label>
+            <input
+              type="text"
+              name="assignedBy"              value={getCurrentUser()?.username || ''}
+              readOnly
+              className="mt-1 block w-full rounded-md bg-gray-50 border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+            />
+            <p className="mt-1 text-sm text-blue-600">Current logged-in user</p>
           </div>
         </div>
 
@@ -220,7 +403,9 @@ const AddDocument = () => {
           {errors.description && (
             <p className="mt-1 text-sm text-red-600">{errors.description}</p>
           )}
-        </div>        {/* Meta Tags */}
+        </div>
+
+        {/* Meta Tags */}
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-2">Meta Tags</label>
           <div className="space-y-2">
@@ -256,8 +441,7 @@ const AddDocument = () => {
         </div>
 
         {/* Buttons */}
-        <div className="flex justify-start space-x-4">
-          <button
+        <div className="flex justify-start space-x-4">          <button
             type="submit"
             className="inline-flex items-center px-4 py-2 text-white bg-green-600 hover:bg-green-700 rounded-lg"
           >

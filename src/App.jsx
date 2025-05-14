@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import Layout from './component/layout/Layout';
-import Login from "./Login";
+import Login from "./login";
 import Welcome from "./welcome";
 import AssignedDocuments from "./AssignedDocuments";
 import Dashboard from "./Dashboard";

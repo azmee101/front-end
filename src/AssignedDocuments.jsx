@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 const AssignedDocuments = () => {
   const navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(Infinity);
   const [documents, setDocuments] = useState([]);
   const [filteredDocuments, setFilteredDocuments] = useState([]);
   const [startFrom, setStartFrom] = useState(0);
@@ -22,29 +22,18 @@ const AssignedDocuments = () => {
     storage: "",
     client: ""
   });
-
   const fetchDocuments = useCallback(async () => {
     try {
       setLoading(true);
-      // First get total count
-      const countResponse = await fetch('http://localhost:3001/documents');
-      const allDocuments = await countResponse.json();
-      const total = allDocuments.length;
-      setTotalDocuments(total);
-
-      // Then fetch the paginated data
-      let url = `http://localhost:3001/documents`;
-      if (rowsPerPage !== Infinity) {
-        url += `?_start=${startFrom}&_limit=${rowsPerPage}`;
-      }
+      const response = await fetch('http://localhost:3001/assignedDocuments');
+      if (!response.ok) throw new Error("Failed to fetch assigned documents");
       
-      const response = await fetch(url);
-      if (!response.ok) throw new Error("Failed to fetch documents");
-
       const data = await response.json();
-      const processedData = rowsPerPage === Infinity ? data : data.slice(0, rowsPerPage);
-      setDocuments(processedData);
-      setFilteredDocuments(processedData);
+      const total = data.length;
+      
+      setTotalDocuments(total);
+      setDocuments(data);
+      setFilteredDocuments(data);
       setTotalPages(Math.ceil(total / (rowsPerPage === Infinity ? total : rowsPerPage)));
     } catch (err) {
       setError(err.message);
@@ -71,14 +60,13 @@ const AssignedDocuments = () => {
 
     try {
       setLoading(true);
-      let filtered = [...documents];
-
-      // Apply search filter
+      let filtered = [...documents];      // Apply search filter
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
         filtered = filtered.filter(doc => 
           doc.name?.toLowerCase().includes(searchLower) ||
-          doc.description?.toLowerCase().includes(searchLower)
+          doc.description?.toLowerCase().includes(searchLower) ||
+          doc.documentId?.toString().includes(searchLower)
         );
       }
 
@@ -86,7 +74,7 @@ const AssignedDocuments = () => {
       if (filters.metaTags) {
         const tagsLower = filters.metaTags.toLowerCase();
         filtered = filtered.filter(doc =>
-          doc.tags?.toLowerCase().includes(tagsLower)
+          doc.metaTags?.some(tag => tag.toLowerCase().includes(tagsLower))
         );
       }
 
@@ -101,13 +89,6 @@ const AssignedDocuments = () => {
       if (filters.storage) {
         filtered = filtered.filter(doc =>
           doc.storage === filters.storage
-        );
-      }
-
-      // Apply client filter
-      if (filters.client) {
-        filtered = filtered.filter(doc =>
-          doc.client === filters.client
         );
       }
 
@@ -209,16 +190,16 @@ const AssignedDocuments = () => {
         {/* Table */}
         <div className="flex-1 overflow-hidden">
           <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
-            <table className="w-full text-lg">
-              <thead className="sticky top-0 bg-gray-200 z-10">
+            <table className="w-full text-lg">              <thead className="sticky top-0 bg-gray-200 z-10">
                 <tr>
                   <th className="text-left py-4 px-6 pl-4">Action</th>
                   <th className="text-left py-2 px-4">Name</th>
-                  <th className="text-left py-2 px-4">Category Name</th>
+                  <th className="text-left py-2 px-4">Document ID</th>
+                  <th className="text-left py-2 px-4">Category</th>
                   <th className="text-left py-2 px-4">Storage</th>
-                  <th className="text-left py-2 px-4">Client</th>
-                  <th className="text-left py-2 px-4">Created Date</th>
-                  <th className="text-left py-2 px-4">Expired Date</th>
+                  <th className="text-left py-2 px-4">Description</th>
+                  <th className="text-left py-2 px-4">Assigned Date</th>
+                  <th className="text-left py-2 px-4">Status</th>
                   <th className="text-left py-2 px-4">Created By</th>
                 </tr>
               </thead>
@@ -229,11 +210,18 @@ const AssignedDocuments = () => {
                       <Action />
                     </td>
                     <td className="truncate max-w-[200px] text-blue-500">{document.name}</td>
+                    <td className="truncate max-w-[200px]">{document.documentId}</td>
                     <td className="truncate max-w-[200px]">{document.category}</td>
                     <td className="truncate max-w-[200px]">{document.storage}</td>
-                    <td className="truncate max-w-[200px]">{document.client}</td>
-                    <td className="truncate max-w-[200px]">{document.createdDate}</td>
-                    <td className="truncate max-w-[200px] text-red-500">{document.expiredDate}</td>
+                    <td className="truncate max-w-[200px]">{document.description}</td>
+                    <td className="truncate max-w-[200px]">{document.assignedDate}</td>
+                    <td className="truncate max-w-[200px]">
+                      <span className={`px-2 py-1 rounded-full text-sm ${
+                        document.status === 'Assigned' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                      }`}>
+                        {document.status}
+                      </span>
+                    </td>
                     <td className="truncate max-w-[200px]">{document.createdBy}</td>
                   </tr>
                 ))}

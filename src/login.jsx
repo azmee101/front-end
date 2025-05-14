@@ -45,11 +45,15 @@ const Login = ({ setUser }) => {
       localStorage.setItem('currentUser', JSON.stringify({
         email: user.user_name,
         username: user.full_Name,
-        password: user.password
+        password: user.password,
+        user_id: user.user_id,
+        role: user.role
       }));
       setUser({
         email: user.user_name,
-        username: user.full_Name
+        username: user.full_Name,
+        user_id: user.user_id,
+        role: user.role
       });
       navigate('/welcome', { replace: true });
     } else {

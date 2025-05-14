@@ -1,19 +1,25 @@
 {
         "users": {
             "user1": {
+                "user_id" : 1,
                 "user_name": "mizan@example.com",
                 "full_Name": "Mizanur Rahman",
-                "password": "mizan1234"
+                "password": "mizan1234",
+                "role" : "user"
             },
             "user2": {
+                "user_id" : 2,
                 "user_name": "admin@example.com", 
                 "full_Name": "Admin User",
-                "password": "admin123"
+                "password": "admin123",
+                "role" : "admin"
             },
             "user3": {
+                "user_id" : 3,
                 "user_name": "test@example.com",
                 "full_Name": "Test User",
-                "password": "test123"
+                "password": "test123",
+                "role" : "user"
             }
         }
     }

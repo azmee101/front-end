@@ -1,4 +1,89 @@
 {
+  "assignedDocuments": [
+    {
+      "id": "1747203275520",
+      "documentId": "9715",
+      "name": "leave policy",
+      "fileName": "1747203275520_Mohammad_Azmee_Tofail (4).pdf",
+      "originalName": "Mohammad_Azmee_Tofail (4).pdf",
+      "fileType": "application/pdf",
+      "fileSize": 118301,
+      "category": "fin",
+      "storage": "Local Disk (Default)",
+      "description": "test",
+      "metaTags": [
+        "test",
+        "test"
+      ],
+      "filePath": "/assets/assignDocuments/1747203275520_Mohammad_Azmee_Tofail (4).pdf",
+      "reference": "DMS-002",
+      "assignedDate": "5/14/2025",
+      "status": "Assigned",
+      "createdBy": "Mizanur Rahman",
+      "createdById": 1
+    },
+    {
+      "id": "1747213124925",
+      "documentId": "6727",
+      "name": "Mohammad Azmee Tofail",
+      "category": "fin",
+      "storage": "Local Disk (Default)",
+      "description": "qqq",
+      "metaTags": [
+        "qqq"
+      ],
+      "reference": "DMS-002",
+      "assignedDate": "5/14/2025",
+      "status": "Assigned",
+      "createdBy": "Admin User",
+      "createdById": 2,
+      "assignedTo": "",
+      "assignedBy": "Admin User",
+      "assignedById": 2
+    },
+    {
+      "id": "1747213171892",
+      "documentId": "2545",
+      "name": "Mohammad Azmee Tofail",
+      "category": "fin",
+      "storage": "Local Disk (Default)",
+      "description": "aaaaaaaaaaaaaaa",
+      "metaTags": [],
+      "reference": "DMS-003",
+      "assignedDate": "5/14/2025",
+      "status": "Assigned",
+      "createdBy": "Admin User",
+      "createdById": 2,
+      "assignedTo": "",
+      "assignedBy": "Admin User",
+      "assignedById": 2
+    },
+    {
+      "id": "1747213645172",
+      "documentId": "4885",
+      "name": "nid uploaded",
+      "fileName": "1747213645172_nid-2423618350.pdf",
+      "originalName": "nid-2423618350.pdf",
+      "fileType": "application/pdf",
+      "fileSize": 139213,
+      "category": "fin",
+      "storage": "Local Disk (Default)",
+      "description": "document test",
+      "metaTags": [
+        "meta tag 1",
+        "meta tag 2"
+      ],
+      "filePath": "/assets/assignDocuments/1747213645172_nid-2423618350.pdf",
+      "reference": "DMS-005",
+      "assignedDate": "5/14/2025",
+      "status": "Assigned",
+      "createdBy": "Admin User",
+      "createdById": 2,
+      "assignedTo": "",
+      "assignedBy": "Admin User",
+      "assignedById": 2
+    }
+  ],
   "documents": [
     {
       "id": "2",
@@ -6,19 +91,18 @@
       "subject": "HR Policy Handbook",
       "email": "ancells.elkins2@company.com",
       "maxFileSize": "2.0GB",
-      "maxDocuments": "102.0GB",
+      "maxDocuments": 102,
       "allowedExtensions": [
-        ".docx",
         ".pdf"
       ],
-      "status": "Created",
+      "status": "Uploaded",
       "name": "Document_2.docx",
-      "category": "hr",
-      "storage": "Network Drive",
-      "client": "Client C",
+      "category": "pdf",
+      "storage": "Cloud Storage",
+      "client": "Client A",
       "createdDate": "3/3/2025",
-      "linkExpiration": "3/3/2026",
-      "createdBy": "Ancells Elkins2"
+      "linkExpiration": "2026-03-02",
+      "createdById": 1
     },
     {
       "id": "3",
@@ -32,14 +116,15 @@
         ".dwg",
         ".stp"
       ],
-      "status": "Created",
+      "status": "Uploaded",
       "name": "Document_3.pdf",
       "category": "eng",
       "storage": "Local Disk (Backup)",
       "client": "Client D",
       "createdDate": "4/3/2025",
       "linkExpiration": "4/3/2026",
-      "createdBy": "Ancells Elkins3"
+      "createdBy": "Ancells Elkins3",
+      "createdById": "3"
     },
     {
       "id": "4",
@@ -60,7 +145,8 @@
       "client": "Client E",
       "createdDate": "5/3/2025",
       "linkExpiration": "5/3/2026",
-      "createdBy": "Ancells Elkins4"
+      "createdBy": "Ancells Elkins4",
+      "createdById": "1"
     },
     {
       "id": "5",
@@ -75,14 +161,15 @@
         ".png",
         ".jpg"
       ],
-      "status": "Created",
+      "status": "Uploaded",
       "name": "Document_5.pdf",
       "category": "prd",
       "storage": "Cloud Storage",
       "client": "Client F",
       "createdDate": "6/3/2025",
       "linkExpiration": "6/3/2026",
-      "createdBy": "Ancells Elkins5"
+      "createdBy": "Ancells Elkins5",
+      "createdById": "3"
     },
     {
       "id": "6",
@@ -90,20 +177,18 @@
       "subject": "Internal Memo",
       "email": "ancells.elkins6@company.com",
       "maxFileSize": "1.5GB",
-      "maxDocuments": "106.0GB",
+      "maxDocuments": 106,
       "allowedExtensions": [
-        ".xlsx",
-        ".pdf",
-        ".csv"
+        ".pdf"
       ],
       "status": "Created",
       "name": "Document_6.xlsx",
-      "category": "mem",
-      "storage": "Network Drive",
-      "client": "Client G",
+      "category": "pdf",
+      "storage": "Cloud Storage",
+      "client": "Client A",
       "createdDate": "7/3/2025",
-      "linkExpiration": "7/3/2026",
-      "createdBy": "Ancells Elkins6"
+      "linkExpiration": "2026-07-02",
+      "createdById": 1
     },
     {
       "id": "7",
@@ -123,7 +208,8 @@
       "client": "Client H",
       "createdDate": "8/3/2025",
       "linkExpiration": "8/3/2026",
-      "createdBy": "Ancells Elkins7"
+      "createdBy": "Ancells Elkins7",
+      "createdById": "3"
     },
     {
       "id": "8",
@@ -131,20 +217,18 @@
       "subject": "Security Incident Report",
       "email": "ancells.elkins8@company.com",
       "maxFileSize": "2.5GB",
-      "maxDocuments": "108.0GB",
+      "maxDocuments": 108,
       "allowedExtensions": [
-        ".pdf",
-        ".dwg",
-        ".stp"
+        ".pdf"
       ],
       "status": "Uploaded",
       "name": "Document_8.pdf",
-      "category": "sec",
-      "storage": "Local Disk (Default)",
-      "client": "Client I",
+      "category": "pdf",
+      "storage": "Cloud Storage",
+      "client": "Client A",
       "createdDate": "9/3/2025",
-      "linkExpiration": "9/3/2026",
-      "createdBy": "Ancells Elkins8"
+      "linkExpiration": "2026-09-02",
+      "createdById": 1
     },
     {
       "id": "9",
@@ -165,7 +249,8 @@
       "client": "Client J",
       "createdDate": "10/3/2025",
       "linkExpiration": "10/3/2026",
-      "createdBy": "Ancells Elkins9"
+      "createdBy": "Ancells Elkins9",
+      "createdById": "3"
     },
     {
       "id": "10",
@@ -187,7 +272,8 @@
       "client": "Client K",
       "createdDate": "11/3/2025",
       "linkExpiration": "11/3/2026",
-      "createdBy": "Ancells Elkins10"
+      "createdBy": "Ancells Elkins10",
+      "createdById": "1"
     },
     {
       "id": "11",
@@ -208,7 +294,8 @@
       "client": "Client L",
       "createdDate": "12/3/2025",
       "linkExpiration": "12/3/2026",
-      "createdBy": "Ancells Elkins11"
+      "createdBy": "Ancells Elkins11",
+      "createdById": "3"
     },
     {
       "id": "12",
@@ -228,7 +315,8 @@
       "client": "Client M",
       "createdDate": "13/3/2025",
       "linkExpiration": "13/3/2026",
-      "createdBy": "Ancells Elkins12"
+      "createdBy": "Ancells Elkins12",
+      "createdById": "1"
     },
     {
       "id": "13",
@@ -249,7 +337,8 @@
       "client": "Client N",
       "createdDate": "14/3/2025",
       "linkExpiration": "14/3/2026",
-      "createdBy": "Ancells Elkins13"
+      "createdBy": "Ancells Elkins13",
+      "createdById": "3"
     },
     {
       "id": "14",
@@ -270,7 +359,8 @@
       "client": "Client O",
       "createdDate": "15/3/2025",
       "linkExpiration": "15/3/2026",
-      "createdBy": "Ancells Elkins14"
+      "createdBy": "Ancells Elkins14",
+      "createdById": "1"
     },
     {
       "id": "15",
@@ -292,7 +382,8 @@
       "client": "Client P",
       "createdDate": "16/3/2025",
       "linkExpiration": "16/3/2026",
-      "createdBy": "Ancells Elkins15"
+      "createdBy": "Ancells Elkins15",
+      "createdById": "3"
     },
     {
       "id": "16",
@@ -313,7 +404,8 @@
       "client": "Client Q",
       "createdDate": "17/3/2025",
       "linkExpiration": "17/3/2026",
-      "createdBy": "Ancells Elkins16"
+      "createdBy": "Ancells Elkins16",
+      "createdById": "1"
     },
     {
       "id": "17",
@@ -333,7 +425,8 @@
       "client": "Client R",
       "createdDate": "18/3/2025",
       "linkExpiration": "18/3/2026",
-      "createdBy": "Ancells Elkins17"
+      "createdBy": "Ancells Elkins17",
+      "createdById": "3"
     },
     {
       "id": "18",
@@ -354,7 +447,8 @@
       "client": "Client S",
       "createdDate": "19/3/2025",
       "linkExpiration": "19/3/2026",
-      "createdBy": "Ancells Elkins18"
+      "createdBy": "Ancells Elkins18",
+      "createdById": "1"
     },
     {
       "id": "19",
@@ -375,7 +469,8 @@
       "client": "Client T",
       "createdDate": "20/3/2025",
       "linkExpiration": "20/3/2026",
-      "createdBy": "Ancells Elkins19"
+      "createdBy": "Ancells Elkins19",
+      "createdById": "3"
     },
     {
       "id": "20",
@@ -397,7 +492,8 @@
       "client": "Client U",
       "createdDate": "21/3/2025",
       "linkExpiration": "21/3/2026",
-      "createdBy": "Ancells Elkins20"
+      "createdBy": "Ancells Elkins20",
+      "createdById": "1"
     },
     {
       "id": "21",
@@ -418,7 +514,8 @@
       "client": "Client V",
       "createdDate": "22/3/2025",
       "linkExpiration": "22/3/2026",
-      "createdBy": "Ancells Elkins21"
+      "createdBy": "Ancells Elkins21",
+      "createdById": "3"
     },
     {
       "id": "22",
@@ -438,7 +535,8 @@
       "client": "Client W",
       "createdDate": "23/3/2025",
       "linkExpiration": "23/3/2026",
-      "createdBy": "Ancells Elkins22"
+      "createdBy": "Ancells Elkins22",
+      "createdById": "1"
     },
     {
       "id": "23",
@@ -459,7 +557,8 @@
       "client": "Client X",
       "createdDate": "24/3/2025",
       "linkExpiration": "24/3/2026",
-      "createdBy": "Ancells Elkins23"
+      "createdBy": "Ancells Elkins23",
+      "createdById": "3"
     },
     {
       "id": "24",
@@ -480,7 +579,8 @@
       "client": "Client Y",
       "createdDate": "25/3/2025",
       "linkExpiration": "25/3/2026",
-      "createdBy": "Ancells Elkins24"
+      "createdBy": "Ancells Elkins24",
+      "createdById": "1"
     },
     {
       "id": "25",
@@ -502,7 +602,8 @@
       "client": "Client Z",
       "createdDate": "26/3/2025",
       "linkExpiration": "26/3/2026",
-      "createdBy": "Ancells Elkins25"
+      "createdBy": "Ancells Elkins25",
+      "createdById": "3"
     },
     {
       "id": "26",
@@ -523,7 +624,8 @@
       "client": "Client A",
       "createdDate": "27/3/2025",
       "linkExpiration": "27/3/2026",
-      "createdBy": "Ancells Elkins26"
+      "createdBy": "Ancells Elkins26",
+      "createdById": "1"
     },
     {
       "id": "27",
@@ -543,7 +645,8 @@
       "client": "Client B",
       "createdDate": "28/3/2025",
       "linkExpiration": "28/3/2026",
-      "createdBy": "Ancells Elkins27"
+      "createdBy": "Ancells Elkins27",
+      "createdById": "3"
     },
     {
       "id": "28",
@@ -564,7 +667,8 @@
       "client": "Client C",
       "createdDate": "1/3/2025",
       "linkExpiration": "1/3/2026",
-      "createdBy": "Ancells Elkins28"
+      "createdBy": "Ancells Elkins28",
+      "createdById": "1"
     },
     {
       "id": "29",
@@ -585,7 +689,8 @@
       "client": "Client D",
       "createdDate": "2/3/2025",
       "linkExpiration": "2/3/2026",
-      "createdBy": "Ancells Elkins29"
+      "createdBy": "Ancells Elkins29",
+      "createdById": "3"
     },
     {
       "id": "30",
@@ -607,7 +712,8 @@
       "client": "Client E",
       "createdDate": "3/3/2025",
       "linkExpiration": "3/3/2026",
-      "createdBy": "Ancells Elkins30"
+      "createdBy": "Ancells Elkins30",
+      "createdById": "1"
     },
     {
       "id": "31",
@@ -628,7 +734,8 @@
       "client": "Client F",
       "createdDate": "4/3/2025",
       "linkExpiration": "4/3/2026",
-      "createdBy": "Ancells Elkins31"
+      "createdBy": "Ancells Elkins31",
+      "createdById": "3"
     },
     {
       "id": "32",
@@ -648,7 +755,8 @@
       "client": "Client G",
       "createdDate": "5/3/2025",
       "linkExpiration": "5/3/2026",
-      "createdBy": "Ancells Elkins32"
+      "createdBy": "Ancells Elkins32",
+      "createdById": "1"
     },
     {
       "id": "33",
@@ -669,556 +777,176 @@
       "client": "Client H",
       "createdDate": "6/3/2025",
       "linkExpiration": "6/3/2026",
-      "createdBy": "Ancells Elkins33"
+      "createdBy": "Ancells Elkins33",
+      "createdById": "3"
     },
     {
       "id": "34",
       "refno": "DMS-034",
-      "subject": "Marketing Campaign Plan",
-      "email": "ancells.elkins34@company.com",
-      "maxFileSize": "3.0GB",
-      "maxDocuments": "134.0GB",
+      "subject": "Leave application policy form needed",
+      "email": "mizan@example.com",
+      "maxFileSize": "Less than 10 MB",
+      "maxDocuments": 1,
       "allowedExtensions": [
-        ".pptx",
-        ".mp4",
-        ".psd"
+        ".pdf"
       ],
-      "status": "Uploaded",
-      "name": "Document_34.pptx",
-      "category": "mkt",
-      "storage": "Network Drive",
-      "client": "Client I",
-      "createdDate": "7/3/2025",
-      "linkExpiration": "7/3/2026",
-      "createdBy": "Ancells Elkins34"
+      "status": "Created",
+      "name": "Document_34.pdf",
+      "category": "pdf",
+      "storage": "Cloud Storage",
+      "client": "Client A",
+      "createdDate": "5/14/2025",
+      "linkExpiration": "2025-05-31",
+      "createdBy": "Mizanur Rahman",
+      "createdById": "1"
     },
     {
       "id": "35",
       "refno": "DMS-035",
-      "subject": "Product Launch Brief",
-      "email": "ancells.elkins35@company.com",
-      "maxFileSize": "1.0GB",
-      "maxDocuments": "135.0GB",
+      "subject": "Marketing Campaign Plan!",
+      "email": "ancells.elkins4@company.com",
+      "maxFileSize": "3.0GB",
+      "maxDocuments": 104,
       "allowedExtensions": [
-        ".pdf",
-        ".docx",
-        ".png",
-        ".jpg"
+        ".pdf"
       ],
-      "status": "Uploaded",
+      "status": "Created",
       "name": "Document_35.pdf",
-      "category": "prd",
-      "storage": "Local Disk (Backup)",
-      "client": "Client J",
-      "createdDate": "8/3/2025",
-      "linkExpiration": "8/3/2026",
-      "createdBy": "Ancells Elkins35"
-    },
-    {
-      "id": "36",
-      "refno": "DMS-036",
-      "subject": "Internal Memo",
-      "email": "ancells.elkins36@company.com",
-      "maxFileSize": "1.5GB",
-      "maxDocuments": "136.0GB",
-      "allowedExtensions": [
-        ".xlsx",
-        ".pdf",
-        ".csv"
-      ],
-      "status": "Created",
-      "name": "Document_36.xlsx",
-      "category": "mem",
-      "storage": "Local Disk (Default)",
-      "client": "Client K",
-      "createdDate": "9/3/2025",
-      "linkExpiration": "9/3/2026",
-      "createdBy": "Ancells Elkins36"
-    },
-    {
-      "id": "37",
-      "refno": "DMS-037",
-      "subject": "Client Proposal",
-      "email": "ancells.elkins37@company.com",
-      "maxFileSize": "2.0GB",
-      "maxDocuments": "137.0GB",
-      "allowedExtensions": [
-        ".docx",
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_37.docx",
-      "category": "prop",
-      "storage": "Cloud Storage",
-      "client": "Client L",
-      "createdDate": "10/3/2025",
-      "linkExpiration": "10/3/2026",
-      "createdBy": "Ancells Elkins37"
-    },
-    {
-      "id": "38",
-      "refno": "DMS-038",
-      "subject": "Security Incident Report",
-      "email": "ancells.elkins38@company.com",
-      "maxFileSize": "2.5GB",
-      "maxDocuments": "138.0GB",
-      "allowedExtensions": [
-        ".pdf",
-        ".dwg",
-        ".stp"
-      ],
-      "status": "Uploaded",
-      "name": "Document_38.pdf",
-      "category": "sec",
-      "storage": "Network Drive",
-      "client": "Client M",
-      "createdDate": "11/3/2025",
-      "linkExpiration": "11/3/2026",
-      "createdBy": "Ancells Elkins38"
-    },
-    {
-      "id": "39",
-      "refno": "DMS-039",
-      "subject": "Annual Summary",
-      "email": "ancells.elkins39@company.com",
-      "maxFileSize": "3.0GB",
-      "maxDocuments": "139.0GB",
-      "allowedExtensions": [
-        ".pptx",
-        ".mp4",
-        ".psd"
-      ],
-      "status": "Created",
-      "name": "Document_39.pptx",
-      "category": "sum",
-      "storage": "Local Disk (Backup)",
-      "client": "Client N",
-      "createdDate": "12/3/2025",
-      "linkExpiration": "12/3/2026",
-      "createdBy": "Ancells Elkins39"
-    },
-    {
-      "id": "40",
-      "refno": "DMS-040",
-      "subject": "Regulatory Compliance Guide",
-      "email": "ancells.elkins40@company.com",
-      "maxFileSize": "1.0GB",
-      "maxDocuments": "140.0GB",
-      "allowedExtensions": [
-        ".pdf",
-        ".docx",
-        ".png",
-        ".jpg"
-      ],
-      "status": "Uploaded",
-      "name": "Document_40.pdf",
-      "category": "ww",
-      "storage": "Local Disk (Default)",
-      "client": "Client O",
-      "createdDate": "13/3/2025",
-      "linkExpiration": "13/3/2026",
-      "createdBy": "Ancells Elkins40"
-    },
-    {
-      "id": "41",
-      "refno": "DMS-041",
-      "subject": "Financial Audit Report",
-      "email": "ancells.elkins41@company.com",
-      "maxFileSize": "1.5GB",
-      "maxDocuments": "141.0GB",
-      "allowedExtensions": [
-        ".xlsx",
-        ".pdf",
-        ".csv"
-      ],
-      "status": "Created",
-      "name": "Document_41.xlsx",
-      "category": "fin",
-      "storage": "Cloud Storage",
-      "client": "Client P",
-      "createdDate": "14/3/2025",
-      "linkExpiration": "14/3/2026",
-      "createdBy": "Ancells Elkins41"
-    },
-    {
-      "id": "42",
-      "refno": "DMS-042",
-      "subject": "HR Policy Handbook",
-      "email": "ancells.elkins42@company.com",
-      "maxFileSize": "2.0GB",
-      "maxDocuments": "142.0GB",
-      "allowedExtensions": [
-        ".docx",
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_42.docx",
-      "category": "hr",
-      "storage": "Network Drive",
-      "client": "Client Q",
-      "createdDate": "15/3/2025",
-      "linkExpiration": "15/3/2026",
-      "createdBy": "Ancells Elkins42"
-    },
-    {
-      "id": "43",
-      "refno": "DMS-043",
-      "subject": "Technical Specifications",
-      "email": "ancells.elkins43@company.com",
-      "maxFileSize": "2.5GB",
-      "maxDocuments": "143.0GB",
-      "allowedExtensions": [
-        ".pdf",
-        ".dwg",
-        ".stp"
-      ],
-      "status": "Created",
-      "name": "Document_43.pdf",
-      "category": "eng",
-      "storage": "Local Disk (Backup)",
-      "client": "Client R",
-      "createdDate": "16/3/2025",
-      "linkExpiration": "16/3/2026",
-      "createdBy": "Ancells Elkins43"
-    },
-    {
-      "id": "44",
-      "refno": "DMS-044",
-      "subject": "Marketing Campaign Plan",
-      "email": "ancells.elkins44@company.com",
-      "maxFileSize": "3.0GB",
-      "maxDocuments": "144.0GB",
-      "allowedExtensions": [
-        ".pptx",
-        ".mp4",
-        ".psd"
-      ],
-      "status": "Created",
-      "name": "Document_44.pptx",
-      "category": "mkt",
-      "storage": "Local Disk (Default)",
-      "client": "Client S",
-      "createdDate": "17/3/2025",
-      "linkExpiration": "17/3/2026",
-      "createdBy": "Ancells Elkins44"
-    },
-    {
-      "id": "45",
-      "refno": "DMS-045",
-      "subject": "Product Launch Brief",
-      "email": "ancells.elkins45@company.com",
-      "maxFileSize": "1.0GB",
-      "maxDocuments": "145.0GB",
-      "allowedExtensions": [
-        ".pdf",
-        ".docx",
-        ".png",
-        ".jpg"
-      ],
-      "status": "Created",
-      "name": "Document_45.pdf",
-      "category": "prd",
-      "storage": "Cloud Storage",
-      "client": "Client T",
-      "createdDate": "18/3/2025",
-      "linkExpiration": "18/3/2026",
-      "createdBy": "Ancells Elkins45"
-    },
-    {
-      "id": "46",
-      "refno": "DMS-046",
-      "subject": "Internal Memo",
-      "email": "ancells.elkins46@company.com",
-      "maxFileSize": "1.5GB",
-      "maxDocuments": "146.0GB",
-      "allowedExtensions": [
-        ".xlsx",
-        ".pdf",
-        ".csv"
-      ],
-      "status": "Created",
-      "name": "Document_46.xlsx",
-      "category": "mem",
-      "storage": "Network Drive",
-      "client": "Client U",
-      "createdDate": "19/3/2025",
-      "linkExpiration": "19/3/2026",
-      "createdBy": "Ancells Elkins46"
-    },
-    {
-      "id": "47",
-      "refno": "DMS-047",
-      "subject": "Client Proposal",
-      "email": "ancells.elkins47@company.com",
-      "maxFileSize": "2.0GB",
-      "maxDocuments": "147.0GB",
-      "allowedExtensions": [
-        ".docx",
-        ".pdf"
-      ],
-      "status": "Uploaded",
-      "name": "Document_47.docx",
-      "category": "prop",
-      "storage": "Local Disk (Backup)",
-      "client": "Client V",
-      "createdDate": "20/3/2025",
-      "linkExpiration": "20/3/2026",
-      "createdBy": "Ancells Elkins47"
-    },
-    {
-      "id": "48",
-      "refno": "DMS-048",
-      "subject": "Security Incident Report",
-      "email": "ancells.elkins48@company.com",
-      "maxFileSize": "2.5GB",
-      "maxDocuments": "148.0GB",
-      "allowedExtensions": [
-        ".pdf",
-        ".dwg",
-        ".stp"
-      ],
-      "status": "Created",
-      "name": "Document_48.pdf",
-      "category": "sec",
-      "storage": "Local Disk (Default)",
-      "client": "Client W",
-      "createdDate": "21/3/2025",
-      "linkExpiration": "21/3/2026",
-      "createdBy": "Ancells Elkins48"
-    },
-    {
-      "id": "49",
-      "refno": "DMS-049",
-      "subject": "Annual Summary",
-      "email": "ancells.elkins49@company.com",
-      "maxFileSize": "3.0GB",
-      "maxDocuments": "149.0GB",
-      "allowedExtensions": [
-        ".pptx",
-        ".mp4",
-        ".psd"
-      ],
-      "status": "Created",
-      "name": "Document_49.pptx",
-      "category": "sum",
-      "storage": "Cloud Storage",
-      "client": "Client X",
-      "createdDate": "22/3/2025",
-      "linkExpiration": "22/3/2026",
-      "createdBy": "Ancells Elkins49"
-    },
-    {
-      "id": "50",
-      "refno": "DMS-050",
-      "subject": "Regulatory Compliance Guide",
-      "email": "ancells.elkins50@company.com",
-      "maxFileSize": "1.0GB",
-      "maxDocuments": "150.0GB",
-      "allowedExtensions": [
-        ".pdf",
-        ".docx",
-        ".png",
-        ".jpg"
-      ],
-      "status": "Created",
-      "name": "Document_50.pdf",
-      "category": "ww",
-      "storage": "Network Drive",
-      "client": "Client Y",
-      "createdDate": "23/3/2025",
-      "linkExpiration": "23/3/2026",
-      "createdBy": "Ancells Elkins50"
-    },
-    {
-      "id": "51",
-      "refno": "DMS-051",
-      "subject": "azmee",
-      "email": "admin@example.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_51.pdf",
       "category": "pdf",
       "storage": "Cloud Storage",
       "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "admin"
+      "createdDate": "5/14/2025",
+      "linkExpiration": "2026-05-02",
+      "createdBy": "Mizanur Rahman",
+      "createdById": 1
     },
     {
-      "id": "52",
-      "refno": "DMS-052",
-      "subject": "Financial Audit Report",
+      "id": "955b",
+      "refno": "DMS-374",
+      "subject": "Financial Audit Report ",
       "email": "iazmee101@gmail.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_52.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "iazmee101"
-    },
-    {
-      "id": "53",
-      "refno": "DMS-053",
-      "subject": "demo request",
-      "email": "iazmee101@gmail.com",
-      "maxFileSize": "Less than 5 MB",
+      "maxFileSize": "Less than 25 MB",
       "maxDocuments": 1,
       "allowedExtensions": [
         ".doc",
         ".docx"
       ],
       "status": "Created",
-      "name": "Document_53.docx",
+      "name": "Document_1747214658374.docx",
       "category": "doc",
       "storage": "Cloud Storage",
       "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "iazmee101"
+      "createdDate": "5/14/2025",
+      "linkExpiration": "2025-05-31",
+      "createdById": 1
+    }
+  ],
+  "menus": [
+    {
+      "id": "1",
+      "title": "Dashboard",
+      "path": "/dashboard",
+      "icon": "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6",
+      "parentId": null,
+      "roles": [
+        "admin",
+        "user"
+      ]
     },
     {
-      "id": "54",
-      "refno": "DMS-054",
-      "subject": "Financial Audit Report",
-      "email": "iazmee101@gmail.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_54.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "iazmee101"
+      "id": "2",
+      "title": "Profile",
+      "path": "/profile",
+      "icon": "M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z",
+      "parentId": null,
+      "roles": [
+        "admin",
+        "user"
+      ]
     },
     {
-      "id": "55",
-      "refno": "DMS-055",
-      "subject": "Financial Audit Report",
-      "email": "iazmee101@gmail.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_55.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "iazmee101"
+      "id": "3",
+      "title": "All Documents",
+      "path": "/all-documents",
+      "icon": "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+      "parentId": null,
+      "roles": [
+        "admin"
+      ]
     },
     {
-      "id": "56",
-      "refno": "DMS-056",
-      "subject": "nagad",
-      "email": "admin@example.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_56.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "admin"
+      "id": "4",
+      "title": "Assigned Documents",
+      "path": "/assigned-documents",
+      "icon": "M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 48.424 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75 2.25 2.25 0 00-.1-.664m-5.8 0A2.251 2.251 0 0113.5 2.25H15c1.012 0 1.867.668 2.15 1.586m-5.8 0c-.376.023-.75.05-1.124.08C9.095 4.01 8.25 4.973 8.25 6.108V8.25m0 0H4.875c-.621 0-1.125.504-1.125 1.125v11.25c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V9.375c0-.621-.504-1.125-1.125-1.125H8.25zM6.75 12h.008v.008H6.75V12zm0 3h.008v.008H6.75V15zm0 3h.008v.008H6.75V18z",
+      "parentId": null,
+      "roles": [
+        "admin",
+        "user"
+      ]
     },
     {
-      "id": "57",
-      "refno": "DMS-057",
-      "subject": "Product Launch Brief",
-      "email": "ancells.elkins5@company.com",
-      "maxFileSize": "1.0GB",
-      "maxDocuments": 105,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_57.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "2026-06-02",
-      "createdBy": "ancells.elkins5"
+      "id": "5",
+      "title": "Accessible Documents",
+      "path": "/accessible-documents",
+      "icon": "M15 7v3m0 0v3m0-3h3m-3 0h-3m-5-5H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V9a2 2 0 00-2-2h-3.586a1 1 0 01-.707-.293l-1.414-1.414A1 1 0 0010.586 4H8",
+      "parentId": null,
+      "roles": [
+        "admin",
+        "user"
+      ]
     },
     {
-      "id": "58",
-      "refno": "DMS-058",
-      "subject": "nagad nagad",
-      "email": "iazmee101@gmail.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_58.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "iazmee101"
+      "id": "6",
+      "title": "Document Category",
+      "path": "/document-categories",
+      "icon": "M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z",
+      "parentId": null,
+      "roles": [
+        "admin"
+      ]
     },
     {
-      "id": "59",
-      "refno": "DMS-059",
-      "subject": "Product Launch Brief",
-      "email": "iazmee101@gmail.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_59.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "iazmee101"
+      "id": "7",
+      "title": "Archive Document",
+      "path": "/archive-documents",
+      "icon": "M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4",
+      "parentId": null,
+      "roles": [
+        "admin"
+      ]
     },
     {
-      "id": "60",
-      "refno": "DMS-060",
-      "subject": "requesting",
-      "email": "iazmee101@gmail.com",
-      "maxFileSize": "Less than 5 MB",
-      "maxDocuments": 1,
-      "allowedExtensions": [
-        ".pdf"
-      ],
-      "status": "Created",
-      "name": "Document_60.pdf",
-      "category": "pdf",
-      "storage": "Cloud Storage",
-      "client": "Client A",
-      "createdDate": "5/13/2025",
-      "linkExpiration": "",
-      "createdBy": "iazmee101"
+      "id": "8",
+      "title": "File Request",
+      "path": "/file-request",
+      "icon": "M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m.75 12l3 3m0 0l3-3m-3 3v-6m-1.5-9H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z",
+      "parentId": null,
+      "roles": [
+        "admin",
+        "user"
+      ]
+    },
+    {
+      "id": "9",
+      "title": "Pending File Request",
+      "path": "/pending-file-request",
+      "icon": "M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z",
+      "parentId": null,
+      "roles": [
+        "admin"
+      ]
+    },
+    {
+      "id": "10",
+      "title": "Settings",
+      "path": "/settings",
+      "icon": "M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z M15 12a3 3 0 11-6 0 3 3 0 016 0z",
+      "parentId": null,
+      "roles": [
+        "admin",
+        "user"
+      ]
     }
   ]
 }
