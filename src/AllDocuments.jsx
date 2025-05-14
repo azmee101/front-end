@@ -210,7 +210,7 @@ const AllDocuments = () => {
                 {currentDocuments.map((document) => (
                   <tr key={document.id}>
                     <td className="py-2 px-4">
-                      <Action />
+                      <Action variant="AllDocuments"/>
                     </td>
                     <td className="truncate max-w-[200px] text-blue-500">{document.name}</td>
                     <td className="truncate max-w-[200px]">{document.category}</td>

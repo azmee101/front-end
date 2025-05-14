@@ -152,7 +152,7 @@ const PendingFileRequest = () => {
                 {displayedDocuments.map((document) => (
                   <tr key={document.id}>
                     <td className="py-2 px-4">
-                      <Action variant="fileRequest" rowData={document} />
+                      <Action variant="PendingFileRequest" rowData={document} />
                     </td>
                     <td className="truncate max-w-[150px] font-mono text-gray-600">{document.refno}</td>
                     <td className="truncate max-w-[200px] text-blue-500">{document.subject}</td>

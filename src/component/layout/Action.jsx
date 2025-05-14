@@ -87,25 +87,26 @@ const Action = ({ variant = 'default', rowData, onDelete }) => {
   );
 
   const renderMenuItems = () => {
-    const isPendingFileRequest = window.location.pathname === '/pending-file-request';
+    //const isPendingFileRequest = window.location.pathname === '/pending-file-request';
 
-    if (variant === 'fileRequest' && isPendingFileRequest) {
-      return (
-        <>
-          <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
-          <MenuItem icon={<FaEdit className="text-blue-600" />} text="Assign Document" />
-          <div className="border-t border-gray-200 my-2" />
-          <MenuItem 
-            icon={<FaTrash className="text-red-600" />} 
-            text="Cancel" 
-            danger
-          />
-        </>
-      );
-    }
+    // if (variant === 'fileRequest' && isPendingFileRequest) {
+    //   return (
+    //     <>
+    //       <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
+    //       <MenuItem icon={<FaEdit className="text-blue-600" />} text="Assign Document" />
+    //       <div className="border-t border-gray-200 my-2" />
+    //       <MenuItem 
+    //         icon={<FaTrash className="text-red-600" />} 
+    //         text="Cancel" 
+    //         danger
+    //       />
+    //     </>
+    //   );
+    // }
 
     switch (variant) {
-      case 'fileRequest':
+      case 'AllDocuments' :
+      case 'AssignedDocuments':
         return (
           <>
             <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
@@ -130,6 +131,32 @@ const Action = ({ variant = 'default', rowData, onDelete }) => {
             
             <div className="border-t border-gray-200 my-2" />
             
+            <MenuItem 
+              icon={<FaTrash className="text-red-600" />} 
+              text="Delete" 
+              danger
+            />
+          </>
+        );
+      case 'PendingFileRequest':
+        return (
+          <>
+            <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
+            <MenuItem icon={<FaEdit className="text-blue-600" />} text="Assign Document" />
+            <div className="border-t border-gray-200 my-2" />
+            <MenuItem 
+              icon={<FaTrash className="text-red-600" />} 
+              text="Cancel" 
+              danger
+            />
+          </>
+        );
+      case 'FileRequest':
+        return (
+          <>
+            <MenuItem icon={<FaEye className="text-gray-600" />} text="View" />
+            <MenuItem icon={<FaEdit className="text-blue-600" />} text="Edit" />
+            <div className="border-t border-gray-200 my-2" />
             <MenuItem 
               icon={<FaTrash className="text-red-600" />} 
               text="Delete" 

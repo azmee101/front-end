@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Pagination from "./component/layout/pagination_component";
 import Action from "./component/layout/Action";
 import { useNavigate } from "react-router-dom";
+import { getCurrentUser } from "./utility/userUtils";
 
 const AssignedDocuments = () => {
   const navigate = useNavigate();
@@ -22,25 +23,38 @@ const AssignedDocuments = () => {
     storage: "",
     client: ""
   });
+
   const fetchDocuments = useCallback(async () => {
     try {
       setLoading(true);
+      const currentUser = getCurrentUser();
+      
+      if (!currentUser) {
+        navigate("/");
+        return;
+      }
+
       const response = await fetch('http://localhost:3001/assignedDocuments');
       if (!response.ok) throw new Error("Failed to fetch assigned documents");
       
-      const data = await response.json();
-      const total = data.length;
-      
+      const allDocuments = await response.json();
+      console.log(allDocuments,currentUser.user_id);
+      // Filter documents based on user role
+      const userDocs = allDocuments.filter(
+        (doc) => doc.assignedToId.toString() === currentUser.user_id.toString()
+      );
+
+      const total = userDocs.length;
       setTotalDocuments(total);
-      setDocuments(data);
-      setFilteredDocuments(data);
+      setDocuments(userDocs);
+      setFilteredDocuments(userDocs);
       setTotalPages(Math.ceil(total / (rowsPerPage === Infinity ? total : rowsPerPage)));
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [startFrom, rowsPerPage]);
+  }, [rowsPerPage, navigate]);
 
   useEffect(() => {
     fetchDocuments();
@@ -188,9 +202,9 @@ const AssignedDocuments = () => {
         <hr className="mb-4" />
 
         {/* Table */}
-        <div className="flex-1 overflow-hidden">
-          <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
-            <table className="w-full text-lg">              <thead className="sticky top-0 bg-gray-200 z-10">
+        <div className="flex-1 overflow-hidden">          <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
+            <table className="w-full text-lg">
+              <thead className="sticky top-0 bg-gray-200 z-10">
                 <tr>
                   <th className="text-left py-4 px-6 pl-4">Action</th>
                   <th className="text-left py-2 px-4">Name</th>
@@ -207,7 +221,7 @@ const AssignedDocuments = () => {
                 {displayedDocuments.map((document) => (
                   <tr key={document.id}>
                     <td className="py-2 px-4">
-                      <Action />
+                      <Action variant=""/>
                     </td>
                     <td className="truncate max-w-[200px] text-blue-500">{document.name}</td>
                     <td className="truncate max-w-[200px]">{document.documentId}</td>
