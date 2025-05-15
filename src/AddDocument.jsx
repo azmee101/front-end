@@ -163,8 +163,8 @@ const AddDocument = () => {
           status: "Assigned",
           createdBy: currentUser.username,
           createdById: currentUser.user_id,
-          assignedTo:'',
-          assignedToId:''
+          assignedTo: "",
+          assignedToId: "",
         };
 
         // First, fetch and update the original document's status if we have a reference
@@ -217,9 +217,83 @@ const AddDocument = () => {
 
         if (!saveResponse.ok) {
           const errorText = await saveResponse.text();
-          throw new Error(errorText || "Failed to save document");
+          throw new Error(errorText || "Failed to save in assignDocuments");
         }
 
+        let copyOfNewDocument = {
+          id: documentId,
+          documentId: Math.floor(Math.random() * 10000).toString(),
+          name: formData.name,
+          fileName: `${documentId}_${fileName}`,
+          originalName: fileName,
+          fileType: formData.documentUpload
+            ? formData.documentUpload.type
+            : "application/pdf",
+          fileSize: formData.documentUpload ? formData.documentUpload.size : 0,
+          category: formData.category,
+          storage: formData.storage,
+          description: formData.description,
+          metaTags: formData.metaTags.filter((tag) => tag.trim() !== ""),
+          filePath: filePath,
+          reference: formData.reference,
+          assignedDate: new Date().toLocaleDateString(),
+          status: "Assigned",
+          createdBy: currentUser.username,
+          createdById: currentUser.user_id,
+          assignedTo: "",
+          assignedToId: "",
+        };
+
+        if (formData.reference) {
+          try {
+            const documentsResponse = await fetch(
+              "http://localhost:3001/documents"
+            );
+            const documents = await documentsResponse.json();
+            const documentToUpdate = documents.find(
+              (doc) => doc.refno === formData.reference
+            );
+            copyOfNewDocument.assignedTo = documentToUpdate.createdBy;
+            copyOfNewDocument.assignedToId = documentToUpdate.createdById;
+
+            if (documentToUpdate) {
+              const updateResponse = await fetch(
+                `http://localhost:3001/documents/${documentToUpdate.id}`,
+                {
+                  method: "PATCH",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    status: "Uploaded",
+                  }),
+                }
+              );
+
+              if (!updateResponse.ok) {
+                console.error("Failed to update document status");
+              }
+            }
+          } catch (error) {
+            console.error("Error updating document status:", error);
+          }
+        }
+
+        const userSaveResponse = await fetch(
+          "http://localhost:3001/assignedToUsers",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(copyOfNewDocument),
+          }
+        );
+
+        if (!userSaveResponse.ok) {
+          const errorText = await userSaveResponse.text();
+          throw new Error(errorText || "Failed to save to assignedToUsers");
+        }
         // Show success message
         setShowSuccess(true);
         setTimeout(() => {
@@ -259,26 +333,36 @@ const AddDocument = () => {
 
   const renderPreview = () => {
     if (!previewFile) return null;
-    
-    const fileType = previewFile.type.split('/')[0];
+
+    const fileType = previewFile.type.split("/")[0];
     const fileUrl = URL.createObjectURL(previewFile);
 
     switch (fileType) {
-      case 'image':
-        return <img src={fileUrl} alt={previewFile.name} className="max-h-full max-w-full object-contain p-4" />;
-      case 'video':
+      case "image":
+        return (
+          <img
+            src={fileUrl}
+            alt={previewFile.name}
+            className="max-h-full max-w-full object-contain p-4"
+          />
+        );
+      case "video":
         return (
           <video controls className="max-h-full max-w-full p-4">
             <source src={fileUrl} type={previewFile.type} />
             Your browser does not support the video tag.
           </video>
         );
-      case 'audio':
+      case "audio":
         return (
           <div className="w-full max-w-3xl p-8 bg-white rounded-lg shadow-lg m-4">
             <div className="flex items-center justify-center mb-4">
-              <svg className="w-16 h-16 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/>
+              <svg
+                className="w-16 h-16 text-blue-500"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
               </svg>
             </div>
             <audio controls className="w-full">
@@ -287,8 +371,8 @@ const AddDocument = () => {
             </audio>
           </div>
         );
-      case 'application':
-        if (previewFile.type === 'application/pdf') {
+      case "application":
+        if (previewFile.type === "application/pdf") {
           return (
             <iframe
               src={fileUrl}
@@ -297,9 +381,17 @@ const AddDocument = () => {
             />
           );
         }
-        return <p className="text-gray-600">Preview not available for this file type</p>;
+        return (
+          <p className="text-gray-600">
+            Preview not available for this file type
+          </p>
+        );
       default:
-        return <p className="text-gray-600">Preview not available for this file type</p>;
+        return (
+          <p className="text-gray-600">
+            Preview not available for this file type
+          </p>
+        );
     }
   };
 
@@ -328,17 +420,19 @@ const AddDocument = () => {
 
       {/* Preview Modal */}
       {showPreview && (
-        <div 
+        <div
           className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
           onClick={closePreview}
         >
-          <div 
+          <div
             className="bg-white rounded-xl p-6 w-[80vw] h-[80vh] flex flex-col"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex justify-between items-center mb-4 border-b pb-4">
-              <h3 className="text-xl font-bold truncate flex-1 pr-4">{previewFile?.name}</h3>
-              <button 
+              <h3 className="text-xl font-bold truncate flex-1 pr-4">
+                {previewFile?.name}
+              </h3>
+              <button
                 onClick={closePreview}
                 className="text-gray-500 hover:text-gray-700 text-2xl font-bold hover:bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center"
               >
@@ -382,14 +476,30 @@ const AddDocument = () => {
                     onClick={handlePreview}
                     className="inline-flex items-center px-3 py-1.5 text-sm text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors"
                   >
-                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    <svg
+                      className="w-4 h-4 mr-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                      />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"
+                      />
                     </svg>
                     Preview
                   </button>
                   <span className="text-sm text-gray-500">
-                    {formData.documentUpload.name} ({(formData.documentUpload.size / 1024).toFixed(2)} KB)
+                    {formData.documentUpload.name} (
+                    {(formData.documentUpload.size / 1024).toFixed(2)} KB)
                   </span>
                 </div>
               )}

@@ -289,7 +289,7 @@ const AllDocuments = () => {
                     </td>
                     <td className="truncate max-w-[200px]">
                       <a
-                        href={`http://localhost:3001${document.filePath}`}
+                        href={`http://localhost:5173${document.filePath}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-blue-500 hover:underline"

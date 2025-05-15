@@ -15,6 +15,8 @@ const AssignedDocuments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [totalPages, setTotalPages] = useState(0);
+  const [previewFile, setPreviewFile] = useState(null);
+  const [showPreview, setShowPreview] = useState(false);
 
   const [filters, setFilters] = useState({
     search: "",
@@ -23,6 +25,55 @@ const AssignedDocuments = () => {
     storage: "",
     client: ""
   });
+
+  const handlePreview = async (document) => {
+    try {
+      const response = await fetch(`http://localhost:3001${document.filePath}`);
+      const blob = await response.blob();
+      const file = new File([blob], document.name, { type: document.fileType });
+      const fileUrl = URL.createObjectURL(file);
+      
+      setPreviewFile({
+        ...document,
+        url: fileUrl,
+        type: document.fileType
+      });
+      setShowPreview(true);
+    } catch (err) {
+      console.error('Error fetching file:', err);
+    }
+  };
+
+  useEffect(() => {
+    return () => {
+      if (previewFile?.url) {
+        URL.revokeObjectURL(previewFile.url);
+      }
+    };
+  }, [previewFile]);
+
+  const renderPreview = () => {
+    if (!previewFile) return null;
+    const fileType = previewFile.type.split('/')[0];
+
+    switch (fileType) {
+      case 'image':
+        return <img src={previewFile.url} alt={previewFile.name} className="max-h-full max-w-full object-contain p-4" />;
+      case 'application':
+        if (previewFile.type === 'application/pdf') {
+          return (
+            <iframe
+              src={previewFile.url}
+              title={previewFile.name}
+              className="w-full h-full border-0 p-2"
+            />
+          );
+        }
+        return <p className="text-gray-600">Preview not available for this file type</p>;
+      default:
+        return <p className="text-gray-600">Preview not available for this file type</p>;
+    }
+  };
 
   const fetchDocuments = useCallback(async () => {
     try {
@@ -34,12 +85,10 @@ const AssignedDocuments = () => {
         return;
       }
 
-      const response = await fetch('http://localhost:3001/assignedDocuments');
+      const response = await fetch('http://localhost:3001/assignedToUsers');
       if (!response.ok) throw new Error("Failed to fetch assigned documents");
       
       const allDocuments = await response.json();
-      console.log(allDocuments,currentUser.user_id);
-      // Filter documents based on user role
       const userDocs = allDocuments.filter(
         (doc) => doc.assignedToId.toString() === currentUser.user_id.toString()
       );
@@ -68,13 +117,12 @@ const AssignedDocuments = () => {
     }));
   };
 
-  // Apply filters
   useEffect(() => {
     if (!documents.length) return;
 
     try {
       setLoading(true);
-      let filtered = [...documents];      // Apply search filter
+      let filtered = [...documents];
       if (filters.search) {
         const searchLower = filters.search.toLowerCase();
         filtered = filtered.filter(doc => 
@@ -84,7 +132,6 @@ const AssignedDocuments = () => {
         );
       }
 
-      // Apply meta tags filter
       if (filters.metaTags) {
         const tagsLower = filters.metaTags.toLowerCase();
         filtered = filtered.filter(doc =>
@@ -92,14 +139,12 @@ const AssignedDocuments = () => {
         );
       }
 
-      // Apply category filter
       if (filters.category) {
         filtered = filtered.filter(doc =>
           doc.category === filters.category
         );
       }
 
-      // Apply storage filter
       if (filters.storage) {
         filtered = filtered.filter(doc =>
           doc.storage === filters.storage
@@ -107,7 +152,6 @@ const AssignedDocuments = () => {
       }
 
       setFilteredDocuments(filtered);
-      // Update total pages based on filtered results
       setTotalPages(Math.ceil(filtered.length / (rowsPerPage === Infinity ? filtered.length : rowsPerPage)));
     } catch (err) {
       setError("Error filtering documents: " + err.message);
@@ -146,7 +190,6 @@ const AssignedDocuments = () => {
       </div>
 
       <div className="bg-white p-4 font-sans rounded-2xl flex-1 flex flex-col">
-        {/* Filters */}
         <div className="flex flex-wrap gap-4 mb-7">
           <input 
             className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px]" 
@@ -201,8 +244,8 @@ const AssignedDocuments = () => {
 
         <hr className="mb-4" />
 
-        {/* Table */}
-        <div className="flex-1 overflow-hidden">          <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
+        <div className="flex-1 overflow-hidden">
+          <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
             <table className="w-full text-lg">
               <thead className="sticky top-0 bg-gray-200 z-10">
                 <tr>
@@ -223,7 +266,14 @@ const AssignedDocuments = () => {
                     <td className="py-2 px-4">
                       <Action variant=""/>
                     </td>
-                    <td className="truncate max-w-[200px] text-blue-500">{document.name}</td>
+                    <td className="truncate max-w-[200px]">
+                      <button
+                        className="text-blue-500 hover:underline cursor-pointer"
+                        onClick={() => handlePreview(document)}
+                      >
+                        {document.name}
+                      </button>
+                    </td>
                     <td className="truncate max-w-[200px]">{document.documentId}</td>
                     <td className="truncate max-w-[200px]">{document.category}</td>
                     <td className="truncate max-w-[200px]">{document.storage}</td>
@@ -259,6 +309,25 @@ const AssignedDocuments = () => {
           </div>
         </div>
       </div>
+
+      {showPreview && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-4xl h-3/4 overflow-hidden">
+            <div className="flex justify-between items-center p-4 border-b">
+              <h2 className="text-xl font-bold">{previewFile?.name}</h2>
+              <button
+                className="text-gray-500 hover:text-gray-700 text-2xl"
+                onClick={() => setShowPreview(false)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="h-full">
+              {renderPreview()}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

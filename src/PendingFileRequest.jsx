@@ -3,7 +3,7 @@ import Pagination from "./component/layout/pagination_component";
 import Action from "./component/layout/Action";
 
 const PendingFileRequest = () => {
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(Infinity);
   const [documents, setDocuments] = useState([]);
   const [displayedDocuments, setDisplayedDocuments] = useState([]);
   const [totalDocuments, setTotalDocuments] = useState(0);
@@ -140,7 +140,7 @@ const PendingFileRequest = () => {
                 <tr>
                   <th className="text-left py-4 px-6 pl-4">Action</th>
                   <th className="text-left py-2 px-4">Reference-Id</th>
-                  <th className="text-left py-2 px-4">Name</th>
+                  <th className="text-left py-2 px-4">Subject</th>
                   <th className="text-left py-2 px-4">Category Name</th>
                   <th className="text-left py-2 px-4">Storage</th>
                   <th className="text-left py-2 px-4">Created Date</th>
