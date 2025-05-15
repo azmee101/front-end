@@ -127,6 +127,7 @@ const AssignDocument = () => {
         setError('Failed to assign documents. Please try again.');
       }
     } catch (error) {
+      console.error('Error uploading files:', error);
       setError('An error occurred while assigning documents.');
     }
   };

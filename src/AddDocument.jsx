@@ -11,6 +11,8 @@ const AddDocument = () => {
   const [showCancellation, setShowCancellation] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [showPreview, setShowPreview] = useState(false);
+  const [previewFile, setPreviewFile] = useState(null);
   const [formData, setFormData] = useState({
     documentUpload: null,
     reference: rowData?.refno || "",
@@ -241,6 +243,66 @@ const AddDocument = () => {
     }, 2000);
   };
 
+  // File preview handlers
+  const handlePreview = () => {
+    if (formData.documentUpload) {
+      setPreviewFile(formData.documentUpload);
+      setShowPreview(true);
+    }
+  };
+
+  const closePreview = (e) => {
+    if (e) e.stopPropagation();
+    setShowPreview(false);
+    setPreviewFile(null);
+  };
+
+  const renderPreview = () => {
+    if (!previewFile) return null;
+    
+    const fileType = previewFile.type.split('/')[0];
+    const fileUrl = URL.createObjectURL(previewFile);
+
+    switch (fileType) {
+      case 'image':
+        return <img src={fileUrl} alt={previewFile.name} className="max-h-full max-w-full object-contain p-4" />;
+      case 'video':
+        return (
+          <video controls className="max-h-full max-w-full p-4">
+            <source src={fileUrl} type={previewFile.type} />
+            Your browser does not support the video tag.
+          </video>
+        );
+      case 'audio':
+        return (
+          <div className="w-full max-w-3xl p-8 bg-white rounded-lg shadow-lg m-4">
+            <div className="flex items-center justify-center mb-4">
+              <svg className="w-16 h-16 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z"/>
+              </svg>
+            </div>
+            <audio controls className="w-full">
+              <source src={fileUrl} type={previewFile.type} />
+              Your browser does not support the audio tag.
+            </audio>
+          </div>
+        );
+      case 'application':
+        if (previewFile.type === 'application/pdf') {
+          return (
+            <iframe
+              src={fileUrl}
+              title={previewFile.name}
+              className="w-full h-full border-0 p-2"
+            />
+          );
+        }
+        return <p className="text-gray-600">Preview not available for this file type</p>;
+      default:
+        return <p className="text-gray-600">Preview not available for this file type</p>;
+    }
+  };
+
   return (
     <div className="flex-1 p-8">
       {/* Success Toast */}
@@ -264,6 +326,34 @@ const AddDocument = () => {
         </div>
       )}
 
+      {/* Preview Modal */}
+      {showPreview && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50"
+          onClick={closePreview}
+        >
+          <div 
+            className="bg-white rounded-xl p-6 w-[80vw] h-[80vh] flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="flex justify-between items-center mb-4 border-b pb-4">
+              <h3 className="text-xl font-bold truncate flex-1 pr-4">{previewFile?.name}</h3>
+              <button 
+                onClick={closePreview}
+                className="text-gray-500 hover:text-gray-700 text-2xl font-bold hover:bg-gray-100 w-10 h-10 rounded-full flex items-center justify-center"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="flex-1 overflow-auto bg-gray-50 rounded-lg">
+              <div className="h-full w-full flex justify-center items-center">
+                {renderPreview()}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleSave} className="space-y-6">
         {/* Error Display */}
         {(errors.submit || errorMessage) && (
@@ -277,7 +367,7 @@ const AddDocument = () => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Document Upload
             </label>
-            <div className="mt-1">
+            <div className="mt-1 space-y-2">
               <input
                 type="file"
                 onChange={handleFileChange}
@@ -285,6 +375,24 @@ const AddDocument = () => {
                   errors.documentUpload ? "border-red-500" : "border-gray-300"
                 } rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none`}
               />
+              {formData.documentUpload && (
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={handlePreview}
+                    className="inline-flex items-center px-3 py-1.5 text-sm text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-md transition-colors"
+                  >
+                    <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                    Preview
+                  </button>
+                  <span className="text-sm text-gray-500">
+                    {formData.documentUpload.name} ({(formData.documentUpload.size / 1024).toFixed(2)} KB)
+                  </span>
+                </div>
+              )}
               {errors.documentUpload && (
                 <p className="mt-1 text-sm text-red-600">
                   {errors.documentUpload}
