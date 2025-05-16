@@ -1,26 +1,27 @@
-// src/components/layout/Topbar.jsx
 const Topbar = ({ user }) => {
-    return (
-      <nav className="bg-blue-600 text-white shadow-lg h-16 rounded-lg mx-4 mt-4">
-        <div className="flex items-center justify-between h-full">
-          <div className="flex flex-1">
-            <div className="flex-shrink-0 flex items-center ml-4">
-              <img
-                className="h-8 w-8 mr-2"
-                src="Nagad_Vertical Logo_Latest 1.svg"
-                alt="Nagad DFS Logo"
-              />
-              <span className="text-xl font-semibold">Nagad DFS</span>
-            </div>
-            <div className="hidden md:flex items-center ml-10 md:ml-32 lg:ml-64 xl:ml-[900px]">
-              <span className="text-gray-200">
-                Logged in as: {user.username}
-              </span>
-            </div>
+  return (
+    <header className="px-4 pt-4"> {/* Move margins to header */}
+      <nav className="bg-blue-600 text-white shadow-lg h-16 rounded-lg">
+        <div className="flex items-center justify-between h-full px-4">
+          <div className="flex items-center">
+            <img
+              className="h-8 w-8 mr-2"
+              src="Nagad_Vertical Logo_Latest 1.svg"
+              alt="Nagad DFS Logo"
+            />
+            <span className="text-xl font-semibold">Nagad DFS</span>
+          </div>
+          
+          {/* Right-aligned user info with responsive margin */}
+          <div className="hidden md:block ml-auto mr-4">
+            <span className="text-gray-200">
+              Logged in as: {user.username}
+            </span>
           </div>
         </div>
       </nav>
-    );
-  };
-  
+    </header>
+  );
+};
+
 export default Topbar;

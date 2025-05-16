@@ -37,7 +37,7 @@ const Sidebar = ({ onLogout }) => {
   };
 
   return (
-    <div className="bg-white w-64 shadow-lg overflow-y-auto rounded-lg m-4">
+    <div className="bg-white w-72 shadow-lg overflow-y-auto rounded-lg m-4">
       <div className="p-4">
         <nav className="mt-4">
           {/* Dynamic Menu Items */}
