@@ -1,6 +1,6 @@
 const Topbar = ({ user }) => {
   return (
-    <header className="px-4 pt-4"> {/* Move margins to header */}
+    <header className="px-4 pt-4">
       <nav className="bg-blue-600 text-white shadow-lg h-16 rounded-lg">
         <div className="flex items-center justify-between h-full px-4">
           <div className="flex items-center">
@@ -12,7 +12,6 @@ const Topbar = ({ user }) => {
             <span className="text-xl font-semibold">Nagad DFS</span>
           </div>
           
-          {/* Right-aligned user info with responsive margin */}
           <div className="hidden md:block ml-auto mr-4">
             <span className="text-gray-200">
               Logged in as: {user.username}

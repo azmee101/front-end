@@ -6,9 +6,8 @@ const Sidebar = ({ onLogout }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Get current user from localStorage
     const storedUser = localStorage.getItem("currentUser");
-    let userRole = "user"; // default role
+    let userRole = "user";
 
     if (storedUser) {
       try {
@@ -19,28 +18,21 @@ const Sidebar = ({ onLogout }) => {
       }
     }
 
-    // Fetch menus from db.json
     fetch('http://localhost:3001/menus')
       .then(response => response.json())
       .then(data => {
-        // Filter menus based on user role
         const filteredMenus = data.filter(menu => menu.roles.includes(userRole));
         setMenus(filteredMenus);
       })
       .catch(error => console.error('Error fetching menus:', error));
-  }, []); // Run only once on component mount
+  }, []);
 
-  const handleLogout = () => {
-    if (onLogout) {
-      onLogout();
-    }
-  };
+  const handleLogout = () => onLogout?.();
 
   return (
-    <div className="bg-white w-72 shadow-lg overflow-y-auto rounded-lg m-4">
+    <div className="bg-white w-64 flex-shrink-0 shadow-lg overflow-y-auto rounded-lg m-4">
       <div className="p-4">
         <nav className="mt-4">
-          {/* Dynamic Menu Items */}
           {menus.map((menu) => (
             <button
               key={menu.id}
@@ -64,7 +56,6 @@ const Sidebar = ({ onLogout }) => {
             </button>
           ))}
 
-          {/* Logout Button */}
           <button
             onClick={handleLogout}
             className="w-full flex items-center p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-8"

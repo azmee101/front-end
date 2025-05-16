@@ -175,24 +175,22 @@ const AssignedDocuments = () => {
   );
 
   return (
-    <div className="flex-1 p-4" style={{ position: "absolute" }}>
-      <div className="flex justify-between items-center mb-4">
-        <div className="text-3xl font-bold mb-4">Assigned Documents</div>
-        <div className="flex justify-between items-center" style={{position: "relative", paddingRight: "20px"}}>
-          <button
-            className="w-full flex items-center p-3 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors gap-2"
-            onClick={() => navigate("/add-document")}
-          >
-            <span className="text-xl font-bold">+</span>
-            <span>Add Document</span>
-          </button>
-        </div>
+    <div className="flex-1 p-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
+        <h1 className="text-2xl md:text-3xl font-bold">Assigned Documents</h1>
+        <button
+          className="w-full md:w-auto flex items-center justify-center p-3 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors gap-2"
+          onClick={() => navigate("/add-document")}
+        >
+          <span className="text-xl font-bold">+</span>
+          <span>Add Document</span>
+        </button>
       </div>
 
-      <div className="bg-white p-4 font-sans rounded-2xl flex-1 flex flex-col">
-        <div className="flex flex-wrap gap-4 mb-7">
+      <div className="bg-white p-4 rounded-xl shadow-sm">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
           <input 
-            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px]" 
+            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full" 
             type="text"
             name="search"
             value={filters.search}
@@ -200,7 +198,7 @@ const AssignedDocuments = () => {
             placeholder="Search by name or description" 
           />
           <input 
-            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px]" 
+            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full" 
             type="text"
             name="metaTags"
             value={filters.metaTags}
@@ -208,7 +206,7 @@ const AssignedDocuments = () => {
             placeholder="Search by meta tags" 
           />
           <select
-            className={`border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px] appearance-none bg-no-repeat bg-[right_0.75rem_center] ${filters.category ? 'text-black' : 'text-gray-400'}`}
+            className={`border border-gray-300 rounded-lg px-4 py-2 text-base w-full ${filters.category ? 'text-black' : 'text-gray-400'}`}
             name="category"
             value={filters.category}
             onChange={handleFilterChange}
@@ -220,7 +218,7 @@ const AssignedDocuments = () => {
             <option>mkt</option>
           </select>
           <select 
-            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px] appearance-none bg-no-repeat bg-[right_0.75rem_center] text-gray-400"
+            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full"
             name="storage"
             value={filters.storage}
             onChange={handleFilterChange}
@@ -230,7 +228,7 @@ const AssignedDocuments = () => {
             <option className="text-black">Network Drive</option>
           </select>
           <select
-            className={`border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px] appearance-none bg-no-repeat bg-[right_0.75rem_center] ${filters.client ? 'text-black' : 'text-gray-400'}`}
+            className={`border border-gray-300 rounded-lg px-4 py-2 text-base w-full ${filters.client ? 'text-black' : 'text-gray-400'}`}
             name="client"
             value={filters.client}
             onChange={handleFilterChange}
@@ -244,75 +242,75 @@ const AssignedDocuments = () => {
 
         <hr className="mb-4" />
 
-        <div className="flex-1 overflow-hidden">
-          <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
-            <table className="w-full text-lg">
-              <thead className="sticky top-0 bg-gray-200 z-10">
-                <tr>
-                  <th className="text-left py-4 px-6 pl-4">Action</th>
-                  <th className="text-left py-2 px-4">Name</th>
-                  <th className="text-left py-2 px-4">Document ID</th>
-                  <th className="text-left py-2 px-4">Category</th>
-                  <th className="text-left py-2 px-4">Storage</th>
-                  <th className="text-left py-2 px-4">Description</th>
-                  <th className="text-left py-2 px-4">Assigned Date</th>
-                  <th className="text-left py-2 px-4">Status</th>
-                  <th className="text-left py-2 px-4">Created By</th>
+        <div className="overflow-x-auto" style={{ minHeight: '400px', maxHeight: '70vh' }}>
+          <table className="w-full text-base">
+            <thead className="sticky top-0 bg-gray-50 z-10">
+              <tr className="border-b-2 border-gray-200">
+                <th className="text-left py-3 px-4 min-w-[120px]">Action</th>
+                <th className="text-left py-3 px-4 min-w-[200px]">Name</th>
+                <th className="text-left py-3 px-4 min-w-[150px]">Document ID</th>
+                <th className="text-left py-3 px-4 min-w-[120px]">Category</th>
+                <th className="text-left py-3 px-4 min-w-[150px]">Storage</th>
+                <th className="text-left py-3 px-4 min-w-[250px]">Description</th>
+                <th className="text-left py-3 px-4 min-w-[150px]">Assigned Date</th>
+                <th className="text-left py-3 px-4 min-w-[120px]">Status</th>
+                <th className="text-left py-3 px-4 min-w-[150px]">Created By</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-200">
+              {displayedDocuments.map((document) => (
+                <tr key={document.id} className="hover:bg-gray-50">
+                  <td className="py-2 px-4">
+                    <Action variant=""/>
+                  </td>
+                  <td className="py-2 px-4 max-w-[200px] truncate">
+                    <button
+                      className="text-blue-600 hover:text-blue-800 transition-colors"
+                      onClick={() => handlePreview(document)}
+                    >
+                      {document.name}
+                    </button>
+                  </td>
+                  <td className="py-2 px-4 truncate">{document.documentId}</td>
+                  <td className="py-2 px-4 truncate">{document.category}</td>
+                  <td className="py-2 px-4 truncate">{document.storage}</td>
+                  <td className="py-2 px-4 truncate">{document.description}</td>
+                  <td className="py-2 px-4 truncate">{document.assignedDate}</td>
+                  <td className="py-2 px-4 truncate">
+                    <span className={`px-2 py-1 rounded-full text-sm ${
+                      document.status === 'Assigned' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                    }`}>
+                      {document.status}
+                    </span>
+                  </td>
+                  <td className="py-2 px-4 truncate">{document.createdBy}</td>
                 </tr>
-              </thead>
-              <tbody className="[&_tr]:border-b [&_td]:py-2 [&_td]:px-4">
-                {displayedDocuments.map((document) => (
-                  <tr key={document.id}>
-                    <td className="py-2 px-4">
-                      <Action variant=""/>
-                    </td>
-                    <td className="truncate max-w-[200px]">
-                      <button
-                        className="text-blue-500 hover:underline cursor-pointer"
-                        onClick={() => handlePreview(document)}
-                      >
-                        {document.name}
-                      </button>
-                    </td>
-                    <td className="truncate max-w-[200px]">{document.documentId}</td>
-                    <td className="truncate max-w-[200px]">{document.category}</td>
-                    <td className="truncate max-w-[200px]">{document.storage}</td>
-                    <td className="truncate max-w-[200px]">{document.description}</td>
-                    <td className="truncate max-w-[200px]">{document.assignedDate}</td>
-                    <td className="truncate max-w-[200px]">
-                      <span className={`px-2 py-1 rounded-full text-sm ${
-                        document.status === 'Assigned' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
-                      }`}>
-                        {document.status}
-                      </span>
-                    </td>
-                    <td className="truncate max-w-[200px]">{document.createdBy}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
 
-        <div className="flex justify-between items-center mt-4 text-sm bg-gray-200">
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={setCurrentPage}
-            rowsPerPage={rowsPerPage}
-            startFrom={startFrom}
-            setStartFrom={setStartFrom}
-            onRowsPerPageChange={handleRowsPerPageChange}
-          />
-          <div className="px-4 text-gray-600">
+        <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+          <div className="text-sm text-gray-600 order-2 md:order-1">
             Total Documents: {totalDocuments}
+          </div>
+          <div className="order-1 md:order-2 w-full md:w-auto">
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={setCurrentPage}
+              rowsPerPage={rowsPerPage}
+              startFrom={startFrom}
+              setStartFrom={setStartFrom}
+              onRowsPerPageChange={handleRowsPerPageChange}
+            />
           </div>
         </div>
       </div>
 
       {showPreview && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg w-full max-w-4xl h-3/4 overflow-hidden">
+          <div className="bg-white rounded-lg w-full max-w-4xl mx-4 h-[90vh] flex flex-col">
             <div className="flex justify-between items-center p-4 border-b">
               <h2 className="text-xl font-bold">{previewFile?.name}</h2>
               <button
