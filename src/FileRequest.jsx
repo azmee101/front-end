@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import Pagination from "./component/layout/pagination_component";
 import { useNavigate } from "react-router-dom";
 import Action from "./component/layout/Action";
-import { getCurrentUser } from "./utility/userUtils";
+import { getCurrentUser, isAdmin } from "./utility/userUtils";
 
 // Custom hook for debouncing
 const useDebounce = (value, delay = 300) => {
@@ -44,10 +44,14 @@ const FileRequest = () => {
     message: "",
     type: ""
   });
+  const [isUserAdmin, setIsUserAdmin] = useState(false);
+
   const showNotification = useCallback((message, type) => {
     setNotification({ message, type });
     setTimeout(() => setNotification({ message: "", type: "" }), 3000);
-  }, [setNotification]);  const applyFilters = useCallback((docs) => {
+  }, [setNotification]);
+
+  const applyFilters = useCallback((docs) => {
     if (!docs) return;
     
     let filtered = [...docs];
@@ -122,6 +126,7 @@ const FileRequest = () => {
     const effectiveRowsPerPage = rowsPerPage === Infinity ? total : rowsPerPage;
     setTotalPages(Math.ceil(total / effectiveRowsPerPage));
   }, [filters, startFrom, rowsPerPage]);
+
   const fetchDocuments = useCallback(async () => {
     try {
       setLoading(true);
@@ -148,6 +153,13 @@ const FileRequest = () => {
       setLoading(false);
     }
   }, [navigate, applyFilters, showNotification]);
+
+  useEffect(() => {
+    const checkUserRole = () => {
+      setIsUserAdmin(isAdmin());
+    };
+    checkUserRole();
+  }, []);
 
   // Effect for initial document fetch
   useEffect(() => {
@@ -220,10 +232,10 @@ const FileRequest = () => {
   if (loading) return <div className="p-4">Loading documents...</div>;
 
   return (
-    <div className="flex-1 p-4" style={{ position: "absolute" }}>
+    <div className="flex-1 p-4 overflow-hidden h-full">
       {notification.message && (
         <div
-          className={`fixed top-4 right-4 flex items-center px-4 py-3 rounded ${
+          className={`fixed top-4 right-4 z-50 flex items-center px-4 py-3 rounded ${
             notification.type === "success"
               ? "bg-green-100 border border-green-400 text-green-700"
               : "bg-red-100 border border-red-400 text-red-700"
@@ -234,13 +246,10 @@ const FileRequest = () => {
       )}
 
       <div className="flex justify-between items-center mb-4">
-        <div className="text-3xl font-bold mb-4">File Request</div>
-        <div
-          className="flex justify-between items-center"
-          style={{ position: "relative", paddingRight: "200px" }}
-        >
+        <div className="text-3xl font-bold">{isUserAdmin ? "All File Requests" : "My File Requests"}</div>
+        <div className="flex justify-end">
           <button
-            className="w-full flex items-center p-3 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors gap-2"
+            className="flex items-center p-3 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors gap-2"
             onClick={() => navigate("/add-file-request")}
           >
             <span className="text-xl font-bold">+</span>
@@ -353,9 +362,9 @@ const FileRequest = () => {
         </div>
       </div>
 
-      <div className="bg-white p-4 font-sans rounded-2xl flex-1 flex flex-col">
-        <div className="flex-1" style={{ width: "90%" }}>
-          <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
+      <div className="bg-white p-4 font-sans rounded-2xl flex flex-col h-[calc(100vh-280px)]">
+        <div className="flex-1 min-h-0">
+          <div className="overflow-x-auto overflow-y-auto h-full">
             <table className="w-full text-lg table-auto border-collapse">
               <thead className="sticky top-0 bg-gray-200 z-10">
                 <tr>
@@ -363,15 +372,15 @@ const FileRequest = () => {
                   <th className="text-left py-2 px-4">Reference-Id</th>
                   <th className="text-left py-2 px-4">Subject</th>
                   <th className="text-left py-2 px-4">Email</th>
-                  <th className="text-left py-2 px-4">
-                    Maximum File Size Upload
-                  </th>
-                  <th className="text-left py-2 px-4">
-                    Maximum Document Upload
-                  </th>
-                  <th className="text-left py-2 px-4">Allow File Extension</th>
+                  {isUserAdmin && (
+                    <>
+                      <th className="text-left py-2 px-4">Maximum File Size Upload</th>
+                      <th className="text-left py-2 px-4">Maximum Document Upload</th>
+                      <th className="text-left py-2 px-4">Allow File Extension</th>
+                      <th className="text-left py-2 px-4">Created By</th>
+                    </>
+                  )}
                   <th className="text-left py-2 px-4">Status</th>
-                  <th className="text-left py-2 px-4">Created By</th>
                   <th className="text-left py-2 px-4">Created Date</th>
                   <th className="text-left py-2 px-4">Link expiration</th>
                 </tr>
@@ -391,41 +400,31 @@ const FileRequest = () => {
                       {document.subject}
                     </td>
                     <td className="truncate max-w-[200px]">{document.email}</td>
-                    <td className="truncate max-w-[200px]">
-                      {document.maxFileSize}
-                    </td>
-                    <td className="truncate max-w-[200px]">
-                      {document.maxDocuments}
-                    </td>
-                    <td className="truncate max-w-[200px]">
-                      {document.allowedExtensions}
-                    </td>
+                    {isUserAdmin && (
+                      <>
+                        <td className="truncate max-w-[200px]">{document.maxFileSize}</td>
+                        <td className="truncate max-w-[200px]">{document.maxDocuments}</td>
+                        <td className="truncate max-w-[200px]">{document.allowedExtensions}</td>
+                        <td className="truncate max-w-[200px]">{document.createdBy}</td>
+                      </>
+                    )}
                     <td className="truncate max-w-[200px]">
                       <span className={`flex items-center gap-2`}>
                         <span
                           className={`h-2 w-2 rounded-full ${
-                            document.status === "Uploaded"
-                              ? "bg-green-500"
-                              : "bg-red-500"
+                            document.status === "Uploaded" ? "bg-green-500" : "bg-red-500"
                           }`}
                         ></span>
                         <span
                           className={`${
-                            document.status === "Uploaded"
-                              ? "text-green-500"
-                              : "text-red-500"
+                            document.status === "Uploaded" ? "text-green-500" : "text-red-500"
                           }`}
                         >
                           {document.status}
                         </span>
                       </span>
                     </td>
-                    <td className="truncate max-w-[200px]">
-                      {document.createdBy}
-                    </td>
-                    <td className="truncate max-w-[200px]">
-                      {document.createdDate}
-                    </td>
+                    <td className="truncate max-w-[200px]">{document.createdDate}</td>
                     <td className="truncate max-w-[200px] text-red-500">
                       {document.linkExpiration}
                     </td>
