@@ -177,9 +177,9 @@ const AssignedDocuments = () => {
   return (
     <div className="flex-1 p-4">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
-        <h1 className="text-2xl md:text-3xl font-bold">Assigned Documents</h1>
+        <h1 className="text-2xl md:text-2xl font-bold">Assigned Documents</h1>
         <button
-          className="w-full md:w-auto flex items-center justify-center p-3 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors gap-2"
+          className="w-full md:w-auto flex items-center justify-center p-2 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
           onClick={() => navigate("/add-document")}
         >
           <span className="text-xl font-bold">+</span>
@@ -187,7 +187,7 @@ const AssignedDocuments = () => {
         </button>
       </div>
 
-      <div className="bg-white p-4 rounded-xl shadow-sm">
+      <div className="bg-white p-3 rounded-xl shadow-sm">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 mb-6">
           <input 
             className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full" 

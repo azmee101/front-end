@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const Sidebar = ({ onLogout }) => {
   const [menus, setMenus] = useState([]);
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const storedUser = localStorage.getItem("currentUser");
@@ -30,17 +31,21 @@ const Sidebar = ({ onLogout }) => {
   const handleLogout = () => onLogout?.();
 
   return (
-    <div className="bg-white w-64 flex-shrink-0 shadow-lg overflow-y-auto rounded-lg m-4">
-      <div className="p-4">
-        <nav className="mt-4">
+    <div className="bg-white w-64 flex-shrink-0 shadow-lg overflow-y-auto rounded-lg m-3">
+      <div className="p-2">
+        <nav className="mt-1">
           {menus.map((menu) => (
             <button
               key={menu.id}
-              className="w-full flex items-center p-3 text-gray-600 hover:bg-blue-50 rounded-lg transition-colors"
+              className={`w-full flex items-center p-2 text-gray-600 rounded-lg transition-colors ${
+                location.pathname === menu.path 
+                  ? 'bg-red-300' 
+                  : 'hover:bg-red-300'
+              }`}
               onClick={() => navigate(menu.path)}
             >
               <svg
-                className="w-5 h-5 mr-3"
+                className="w-4 h-4 mr-2"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -58,10 +63,10 @@ const Sidebar = ({ onLogout }) => {
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center p-3 text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-8"
+            className="w-full flex items-center p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-8"
           >
             <svg
-              className="w-5 h-5 mr-3"
+              className="w-4 h-4 mr-2"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
