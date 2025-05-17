@@ -2,9 +2,9 @@
         "users": {
             "user1": {
                 "user_id" : 1,
-                "user_name": "mizan@example.com",
-                "full_Name": "Mizanur Rahman",
-                "password": "mizan1234",
+                "user_name": "azmee@example.com",
+                "full_Name": "Mohammad Azmee Tofail",
+                "password": "azmee1234",
                 "role" : "user"
             },
             "user2": {

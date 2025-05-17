@@ -20,8 +20,6 @@ const AllDocuments = () => {
     metaTags: "",
     category: "",
     storage: "",
-    date: "",
-    client: "",
   });
 
   const handleFilterChange = (e) => {
@@ -179,11 +177,6 @@ const AllDocuments = () => {
       filtered = filtered.filter((doc) => doc.client === filters.client);
     }
 
-    if (filters.date) {
-      filtered = filtered.filter((doc) =>
-        doc.createdDate?.includes(filters.date)
-      );
-    }
 
     setFilteredDocuments(filtered);
     setTotalPages(Math.ceil(filtered.length / rowsPerPage));
@@ -250,24 +243,6 @@ const AllDocuments = () => {
             <option>Local Disk (Default)</option>
             <option>Amazon S3</option>
           </select>
-          <input
-            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px]"
-            type="date"
-            name="date"
-            value={filters.date}
-            onChange={handleFilterChange}
-          />
-          <select
-            className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px] appearance-none bg-no-repeat bg-[right_0.75rem_center] text-gray-400"
-            name="client"
-            value={filters.client}
-            onChange={handleFilterChange}
-          >
-            <option value="">Select Client</option>
-            <option className="text-black">Client S</option>
-            <option className="text-black">Client I</option>
-            <option className="text-black">Client O</option>
-          </select>
         </div>
 
         <hr className="mb-0" />
@@ -290,13 +265,7 @@ const AllDocuments = () => {
                     Storage
                   </th>
                   <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
-                    Client
-                  </th>
-                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
                     Created Date ↓
-                  </th>
-                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
-                    Expired Date
                   </th>
                   <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
                     Assigned To
@@ -332,13 +301,7 @@ const AllDocuments = () => {
                       {document.storage}
                     </td>
                     <td className="truncate max-w-[200px] py-1 px-4">
-                      {document.client}
-                    </td>
-                    <td className="truncate max-w-[200px] py-1 px-4">
                       {document.createdDate}
-                    </td>
-                    <td className="truncate max-w-[200px] py-1 px-4 text-red-500">
-                      {document.expiredDate}
                     </td>
                     <td className="truncate max-w-[200px] py-1 px-4">
                       {document.assignedTo}
