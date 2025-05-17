@@ -16,18 +16,21 @@ const AddFileRequest = () => {
     maxDocuments: 1,
     maxFileSize: "Less than 5 MB",
     password: "",
-    expiryDate: ""
+    expiryDate: "",
+    creationDate: "" // Add this line
   });
 
   const [errors, setErrors] = useState({
     subject: "",
     fileExtension: "",
     password: "",
-    expiryDate: ""
+    expiryDate: "",
+    creationDate: "" // Add this line
   });
 
   const [isPasswordRequired, setIsPasswordRequired] = useState(false);
   const [isLinkValid, setIsLinkValid] = useState(false);
+  const [isCreationDateRequired, setIsCreationDateRequired] = useState(false); // Add this line
   const [showPassword, setShowPassword] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showCancellation, setShowCancellation] = useState(false);
@@ -61,12 +64,14 @@ const AddFileRequest = () => {
         maxDocuments: parseInt(rowData.maxDocuments) || 1,
         maxFileSize: rowData.maxFileSize || "Less than 5 MB",
         password: "",
-        expiryDate: rowData.linkExpiration ? new Date(rowData.linkExpiration).toISOString().split('T')[0] : ""
+        expiryDate: rowData.linkExpiration ? new Date(rowData.linkExpiration).toISOString().split('T')[0] : "",
+        creationDate: rowData.creationDate ? new Date(rowData.creationDate).toISOString().split('T')[0] : "" // Add this line
       });
 
       // Set the checkbox states based on data
       setIsPasswordRequired(false); // Reset password requirement
       setIsLinkValid(!!rowData.linkExpiration);
+      setIsCreationDateRequired(!!rowData.creationDate); // Add this line
     }
   }, [rowData, mode]);
 
@@ -108,6 +113,11 @@ const AddFileRequest = () => {
       newErrors.expiryDate = "Expiry date is required";
     }
 
+    // Validate creation date if required
+    if (isCreationDateRequired && !formData.creationDate) {
+      newErrors.creationDate = "Creation date is required";
+    }
+
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
@@ -138,6 +148,7 @@ const AddFileRequest = () => {
           client: "Client A",
           createdDate: rowData ? rowData.createdDate : new Date().toLocaleDateString(),
           linkExpiration: isLinkValid ? formData.expiryDate : "",
+          creationDate: isCreationDateRequired ? formData.creationDate : "", // Add this line
           createdBy: currentUser.name,
           createdById: currentUser.user_id,
         };
@@ -367,6 +378,39 @@ const AddFileRequest = () => {
               )}
             </div>
 
+
+            <div className="space-y-2">
+              <label className="text-sm font-medium text-gray-700">Request Creation Date</label>
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="creationDateRequired"
+                    checked={isCreationDateRequired}
+                    onChange={(e) => setIsCreationDateRequired(e.target.checked)}
+                    className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  />
+                  <label htmlFor="creationDateRequired" className="text-sm text-gray-600">
+                    Set Creation Date
+                  </label>
+                </div>
+                {isCreationDateRequired && (
+                  <div className="mt-2">
+                    <input
+                      type="date"
+                      name="creationDate"
+                      value={formData.creationDate}
+                      onChange={handleInputChange}
+                      className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500"
+                    />
+                    {errors.creationDate && (
+                      <span className="text-red-500 text-sm block mt-1">{errors.creationDate}</span>
+                    )}
+                  </div>
+                )}
+              </div>
+            </div>
+
             <div className="space-y-2">
               <label className="text-sm font-medium text-gray-700">Request expiration</label>
               <div className="flex flex-col gap-2">
@@ -400,6 +444,8 @@ const AddFileRequest = () => {
               </div>
             </div>
           </div>
+
+          
 
           {/* Action Buttons */}
           <div className="flex gap-4 pt-4">
