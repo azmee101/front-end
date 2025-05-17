@@ -368,7 +368,7 @@ const AddFileRequest = () => {
             </div>
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-gray-700">Link expiration</label>
+              <label className="text-sm font-medium text-gray-700">Request expiration</label>
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
                   <input
@@ -379,7 +379,7 @@ const AddFileRequest = () => {
                     className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
                   />
                   <label htmlFor="linkValid" className="text-sm text-gray-600">
-                    Is Link Valid until
+                    Is Request Valid until
                   </label>
                 </div>
                 {isLinkValid && (
