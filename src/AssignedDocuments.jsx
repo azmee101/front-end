@@ -290,7 +290,7 @@ const AssignedDocuments = () => {
           </table>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-between items-center mt-6 gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-center mt-1 gap-4 bg-gray-200">
           <div className="text-sm text-gray-600 order-2 md:order-1">
             Total Documents: {totalDocuments}
           </div>

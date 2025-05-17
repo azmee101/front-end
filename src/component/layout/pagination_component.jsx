@@ -5,7 +5,7 @@ const Pagination = ({
   onRowsPerPageChange,
 }) => {
   return (
-    <div className="flex justify-end items-center gap-4 p-4">
+    <div className="flex justify-end items-center gap-4 p-1">
       <div className="flex items-center gap-2">
         <label className="font-medium">View:</label>
         <select

@@ -5,8 +5,8 @@ const AccessibleDocuments = () => {
 
   return (
     <div className="flex-1 p-8">
-      <div className="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-blue-600 mb-4">
+      <div className="bg-white rounded-lg shadow-md p-5 max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold text-blue-600 mb-2">
           🔓 Accessible Documents
         </h1>
         <p className="text-gray-600 mb-6">
@@ -37,7 +37,7 @@ const AccessibleDocuments = () => {
 
           <div className="mt-6 flex justify-between items-center">
             <button 
-              onClick={() => navigate(-1)}
+              onClick={() => navigate("/dashboard")}
               className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700 transition-colors"
             >
               Back to Dashboard

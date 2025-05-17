@@ -4,17 +4,17 @@ const ArchiveDocuments = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="flex-1 p-8">
-      <div className="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-blue-600 mb-4">
+    <div className="flex-1 p-4">
+      <div className="bg-white rounded-lg shadow-md p-4 max-w-4xl mx-auto">
+        <h1 className="text-2xl font-bold text-blue-600 mb-2">
           🗃 Archived Documents
         </h1>
-        <p className="text-gray-600 mb-6">
+        <p className="text-gray-600 mb-3">
           View and manage documents moved to archive. Archived documents are retained for record-keeping purposes.
         </p>
 
-        <div className="bg-blue-50 p-6 rounded-lg">
-          <div className="mb-6 flex items-center gap-4">
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <div className="mb-2 flex items-center gap-4">
             <input
               type="text"
               placeholder="Search archives..."

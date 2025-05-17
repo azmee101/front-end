@@ -27,8 +27,8 @@ const Settings = ({ user }) => {
 
   return (
     <div className="flex-1 p-8">
-      <div className="bg-white rounded-lg shadow-md p-8 max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-blue-600 mb-4">
+      <div className="bg-white rounded-lg shadow-md p-8 max-w-3xl mx-auto">
+        <h1 className="text-2xl font-bold text-blue-600 mb-2">
           ⚙️ Account Settings
         </h1>
 
@@ -124,22 +124,10 @@ const Settings = ({ user }) => {
           </div>
 
           {/* Preferences */}
-          <div className="bg-blue-50 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Preferences</h2>
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="font-medium">Dark Mode</h3>
-                <p className="text-sm text-gray-600">Enable dark theme</p>
-              </div>
-              <label className="switch">
-                <input type="checkbox" />
-                <span className="slider round"></span>
-              </label>
-            </div>
-          </div>
+          {/* a feature can be add of enable dark mode */}
 
           <button 
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/dashboard")}
             className="bg-gray-600 text-white px-4 py-2 rounded-md hover:bg-gray-700"
           >
             Back to Dashboard

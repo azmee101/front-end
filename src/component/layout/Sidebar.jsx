@@ -37,10 +37,10 @@ const Sidebar = ({ onLogout }) => {
           {menus.map((menu) => (
             <button
               key={menu.id}
-              className={`w-full flex items-center p-2 text-gray-600 rounded-lg transition-colors ${
+              className={`w-full flex items-center p-1 text-gray-600 rounded-lg transition-colors ${
                 location.pathname === menu.path 
-                  ? 'bg-red-300' 
-                  : 'hover:bg-red-300'
+                  ? 'bg-blue-300' 
+                  : 'hover:bg-blue-300'
               }`}
               onClick={() => navigate(menu.path)}
             >
@@ -63,7 +63,7 @@ const Sidebar = ({ onLogout }) => {
 
           <button
             onClick={handleLogout}
-            className="w-full flex items-center p-2 text-red-600 hover:bg-red-50 rounded-lg transition-colors mt-8"
+            className="w-full flex items-center p-1 text-red-600 hover:bg-blue-50 rounded-lg transition-colors mt-8"
           >
             <svg
               className="w-4 h-4 mr-2"

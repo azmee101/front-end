@@ -2,8 +2,6 @@ import React, { useState, useEffect, useCallback } from "react";
 import Pagination from "./component/layout/pagination_component";
 import Action from "./component/layout/Action";
 
-
-
 const AllDocuments = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [rowsPerPage, setRowsPerPage] = useState(Infinity);
@@ -39,15 +37,15 @@ const AllDocuments = () => {
       const blob = await response.blob();
       const file = new File([blob], document.name, { type: document.fileType });
       const fileUrl = URL.createObjectURL(file);
-      
+
       setPreviewFile({
         ...document,
         url: fileUrl,
-        type: document.fileType
+        type: document.fileType,
       });
       setShowPreview(true);
     } catch (err) {
-      console.error('Error fetching file:', err);
+      console.error("Error fetching file:", err);
     }
   };
 
@@ -74,7 +72,7 @@ const AllDocuments = () => {
         docType: "assigned",
         reference: doc.reference,
         filePath: doc.filePath,
-        fileType: doc.fileType
+        fileType: doc.fileType,
       }));
 
       // Combine both types of documents
@@ -113,13 +111,19 @@ const AllDocuments = () => {
 
   const renderPreview = () => {
     if (!previewFile) return null;
-    const fileType = previewFile.type.split('/')[0];
+    const fileType = previewFile.type.split("/")[0];
 
     switch (fileType) {
-      case 'image':
-        return <img src={previewFile.url} alt={previewFile.name} className="max-h-full max-w-full object-contain p-4" />;
-      case 'application':
-        if (previewFile.type === 'application/pdf') {
+      case "image":
+        return (
+          <img
+            src={previewFile.url}
+            alt={previewFile.name}
+            className="max-h-full max-w-full object-contain p-4"
+          />
+        );
+      case "application":
+        if (previewFile.type === "application/pdf") {
           return (
             <iframe
               src={previewFile.url}
@@ -128,9 +132,17 @@ const AllDocuments = () => {
             />
           );
         }
-        return <p className="text-gray-600">Preview not available for this file type</p>;
+        return (
+          <p className="text-gray-600">
+            Preview not available for this file type
+          </p>
+        );
       default:
-        return <p className="text-gray-600">Preview not available for this file type</p>;
+        return (
+          <p className="text-gray-600">
+            Preview not available for this file type
+          </p>
+        );
     }
   };
 
@@ -192,10 +204,10 @@ const AllDocuments = () => {
   );
 
   return (
-    <div className="flex-1 p-4">
-      <div className="text-3xl font-bold mb-4">All Documents</div>
-      <div className="bg-white p-4 font-sans rounded-2xl flex-1 flex flex-col">
-        <div className="flex flex-wrap gap-4 mb-7">
+    <div className="flex-1 p-1">
+      <div className="text-2xl font-bold mb-2">All Documents</div>
+      <div className="bg-white p-3 font-sans rounded-2xl flex-1 flex flex-col">
+        <div className="flex flex-wrap gap-3 mb-6">
           <input
             className="border border-gray-300 rounded-lg px-4 py-2 text-base w-full md:w-[250px]"
             type="text"
@@ -258,21 +270,37 @@ const AllDocuments = () => {
           </select>
         </div>
 
-        <hr className="mb-4" />
+        <hr className="mb-0" />
 
         <div className="flex-1 overflow-hidden">
-          <div className="overflow-x-auto h-full" style={{ height: "500px" }}>
+          <div className="overflow-x-auto h-full" style={{ height: "450px" }}>
             <table className="w-full text-lg">
-              <thead className="sticky top-0 bg-gray-200 z-10">
+              <thead className="sticky top-0 bg-gray-200 z-10 w-min">
                 <tr>
-                  <th className="text-left py-4 px-6 pl-4">Action</th>
-                  <th className="text-left py-2 px-4">Name</th>
-                  <th className="text-left py-2 px-4">Category Name</th>
-                  <th className="text-left py-2 px-4">Storage</th>
-                  <th className="text-left py-2 px-4">Client</th>
-                  <th className="text-left py-2 px-4">Created Date ↓</th>
-                  <th className="text-left py-2 px-4">Expired Date</th>
-                  <th className="text-left py-2 px-4">Assigned To</th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Action
+                  </th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Name
+                  </th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Category Name
+                  </th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Storage
+                  </th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Client
+                  </th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Created Date ↓
+                  </th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Expired Date
+                  </th>
+                  <th className="text-left text-sm px-2 py-1 whitespace-nowrap">
+                    Assigned To
+                  </th>
                 </tr>
               </thead>
               <tbody className="[&_tr]:border-b [&_td]:py-2 [&_td]:px-4">
@@ -280,39 +308,39 @@ const AllDocuments = () => {
                 {currentDocuments.map((document) => (
                   <tr
                     key={document.id}
-                    className={
+                    className={`${
                       document.docType === "assigned" ? "bg-blue-50" : ""
-                    }
+                    } text-sm leading-tight`}
                   >
-                    <td className="py-2 px-4">
+                    <td className="py-1 px-4">
                       <Action variant="AllDocuments" />
                     </td>
-                    <td className="truncate max-w-[200px]">
+                    <td className="truncate max-w-[200px] py-1 px-4">
                       <a
                         href={`http://localhost:5173${document.filePath}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
+                        className="text-blue-500 hover:underline text-sm"
                       >
                         {document.name}
                       </a>
                     </td>
-                    <td className="truncate max-w-[200px]">
+                    <td className="truncate max-w-[200px] py-1 px-4">
                       {document.category}
                     </td>
-                    <td className="truncate max-w-[200px]">
+                    <td className="truncate max-w-[200px] py-1 px-4">
                       {document.storage}
                     </td>
-                    <td className="truncate max-w-[200px]">
+                    <td className="truncate max-w-[200px] py-1 px-4">
                       {document.client}
                     </td>
-                    <td className="truncate max-w-[200px]">
+                    <td className="truncate max-w-[200px] py-1 px-4">
                       {document.createdDate}
                     </td>
-                    <td className="truncate max-w-[200px] text-red-500">
+                    <td className="truncate max-w-[200px] py-1 px-4 text-red-500">
                       {document.expiredDate}
                     </td>
-                    <td className="truncate max-w-[200px]">
+                    <td className="truncate max-w-[200px] py-1 px-4">
                       {document.assignedTo}
                     </td>
                   </tr>
@@ -322,7 +350,7 @@ const AllDocuments = () => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-4 text-sm bg-gray-200">
+        <div className="flex justify-between items-center mt-2 text-sm bg-gray-200">
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
