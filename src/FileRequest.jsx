@@ -232,7 +232,7 @@ const FileRequest = () => {
   if (loading) return <div className="p-4">Loading documents...</div>;
 
   return (
-    <div className="flex-1 p-4 overflow-hidden h-full">
+    <div className="flex-1 p-2 overflow-hidden h-full">
       {notification.message && (
         <div
           className={`fixed top-4 right-4 z-50 flex items-center px-4 py-3 rounded ${
@@ -246,10 +246,10 @@ const FileRequest = () => {
       )}
 
       <div className="flex justify-between items-center mb-4">
-        <div className="text-3xl font-bold">{isUserAdmin ? "All File Requests" : "My File Requests"}</div>
+        <div className="text-2xl font-bold">{isUserAdmin ? "All File Requests" : "My File Requests"}</div>
         <div className="flex justify-end">
           <button
-            className="flex items-center p-3 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors gap-2"
+            className="flex items-center p-2 text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors gap-2"
             onClick={() => navigate("/add-file-request")}
           >
             <span className="text-xl font-bold">+</span>
@@ -269,7 +269,7 @@ const FileRequest = () => {
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="Type at least 3 characters to search..."
-                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
+                className="w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-lg"
               />
               {searchTerm.length > 0 && searchTerm.length < 3 && (
                 <div className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm text-gray-500">
@@ -365,29 +365,29 @@ const FileRequest = () => {
       <div className="bg-white p-4 font-sans rounded-2xl flex flex-col h-[calc(100vh-280px)]">
         <div className="flex-1 min-h-0">
           <div className="overflow-x-auto overflow-y-auto h-full">
-            <table className="w-full text-lg table-auto border-collapse">
-              <thead className="sticky top-0 bg-gray-200 z-10">
-                <tr>
-                  <th className="text-left py-4 px-6 pl-4">Action</th>
-                  <th className="text-left py-2 px-4">Reference-Id</th>
-                  <th className="text-left py-2 px-4">Subject</th>
-                  <th className="text-left py-2 px-4">Email</th>
+            <table className="w-full text-base">
+              <thead className="sticky top-0 bg-gray-50 z-10">
+                <tr className="border-b-2 border-gray-200">
+                  <th className="text-left py-2 px-4 min-w-[120px]">Action</th>
+                  <th className="text-left py-2 px-4 min-w-[150px]">Reference-Id</th>
+                  <th className="text-left py-2 px-4 min-w-[200px]">Subject</th>
+                  <th className="text-left py-2 px-4 min-w-[200px]">Email</th>
                   {isUserAdmin && (
                     <>
-                      <th className="text-left py-2 px-4">Maximum File Size Upload</th>
-                      <th className="text-left py-2 px-4">Maximum Document Upload</th>
-                      <th className="text-left py-2 px-4">Allow File Extension</th>
-                      <th className="text-left py-2 px-4">Created By</th>
+                      <th className="text-left py-2 px-4 min-w-[200px]">Maximum File Size</th>
+                      <th className="text-left py-2 px-4 min-w-[200px]">Maximum Document</th>
+                      <th className="text-left py-2 px-4 min-w-[200px]">Allow File Extension</th>
+                      <th className="text-left py-2 px-4 min-w-[150px]">Created By</th>
                     </>
                   )}
-                  <th className="text-left py-2 px-4">Status</th>
-                  <th className="text-left py-2 px-4">Created Date</th>
-                  <th className="text-left py-2 px-4">Link expiration</th>
+                  <th className="text-left py-2 px-4 min-w-[120px]">Status</th>
+                  <th className="text-left py-2 px-4 min-w-[150px]">Created Date</th>
+                  <th className="text-left py-2 px-4 min-w-[150px]">Link expiration</th>
                 </tr>
               </thead>
-              <tbody className="[&_tr]:border-b [&_td]:py-2 [&_td]:px-4">
+              <tbody className="divide-y divide-gray-200">
                 {filteredDocuments.map((document) => (
-                  <tr key={document.id}>
+                  <tr key={document.id} className="hover:bg-gray-50">
                     <td className="py-2 px-4">
                       <Action
                         variant="fileRequest"
@@ -395,37 +395,31 @@ const FileRequest = () => {
                         onDelete={() => handleDocumentDelete(document.id)}
                       />
                     </td>
-                    <td className="truncate max-w-[200px]">{document.refno}</td>
-                    <td className="truncate max-w-[200px] text-blue-500">
-                      {document.subject}
-                    </td>
-                    <td className="truncate max-w-[200px]">{document.email}</td>
+                    <td className="py-2 px-4 truncate max-w-[150px] font-mono text-gray-600">{document.refno}</td>
+                    <td className="py-2 px-4 truncate max-w-[200px] text-blue-500">{document.subject}</td>
+                    <td className="py-2 px-4 truncate max-w-[200px]">{document.email}</td>
                     {isUserAdmin && (
                       <>
-                        <td className="truncate max-w-[200px]">{document.maxFileSize}</td>
-                        <td className="truncate max-w-[200px]">{document.maxDocuments}</td>
-                        <td className="truncate max-w-[200px]">{document.allowedExtensions}</td>
-                        <td className="truncate max-w-[200px]">{document.createdBy}</td>
+                        <td className="py-2 px-4 truncate max-w-[200px]">{document.maxFileSize}</td>
+                        <td className="py-2 px-4 truncate max-w-[200px]">{document.maxDocuments}</td>
+                        <td className="py-2 px-4 truncate max-w-[200px]">{document.allowedExtensions}</td>
+                        <td className="py-2 px-4 truncate max-w-[200px]">{document.createdBy}</td>
                       </>
                     )}
-                    <td className="truncate max-w-[200px]">
-                      <span className={`flex items-center gap-2`}>
-                        <span
-                          className={`h-2 w-2 rounded-full ${
-                            document.status === "Uploaded" ? "bg-green-500" : "bg-red-500"
-                          }`}
-                        ></span>
-                        <span
-                          className={`${
-                            document.status === "Uploaded" ? "text-green-500" : "text-red-500"
-                          }`}
-                        >
+                    <td className="py-2 px-4">
+                      <span className="flex items-center gap-2">
+                        <span className={`h-2 w-2 rounded-full ${
+                          document.status === "Uploaded" ? "bg-green-500" : "bg-red-500"
+                        }`}></span>
+                        <span className={`${
+                          document.status === "Uploaded" ? "text-green-500" : "text-red-500"
+                        }`}>
                           {document.status}
                         </span>
                       </span>
                     </td>
-                    <td className="truncate max-w-[200px]">{document.createdDate}</td>
-                    <td className="truncate max-w-[200px] text-red-500">
+                    <td className="py-2 px-4 truncate max-w-[150px]">{document.createdDate}</td>
+                    <td className="py-2 px-4 truncate max-w-[150px] text-red-500">
                       {document.linkExpiration}
                     </td>
                   </tr>

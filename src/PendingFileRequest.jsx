@@ -9,6 +9,9 @@ const PendingFileRequest = () => {
   const [totalDocuments, setTotalDocuments] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [startFrom, setStartFrom] = useState(0);
+  const totalPages = Math.ceil(totalDocuments / rowsPerPage);
 
   // Individual filter states for better performance
   const [nameFilter, setNameFilter] = useState("");
@@ -93,7 +96,7 @@ const PendingFileRequest = () => {
 
   return (
     <div className="flex-1 p-4">
-      <div className="text-3xl font-bold mb-4">File Request Pending List</div>
+      <div className="text-2xl font-bold mb-4">File Request Pending List</div>
       
       {/* Filter section */}
       <div className="bg-white p-4 rounded-lg shadow mb-4">
@@ -136,36 +139,37 @@ const PendingFileRequest = () => {
       <div className="bg-white p-4 font-sans rounded-2xl flex-1 flex flex-col">
         <div className="flex-1 overflow-hidden">
           <div className="overflow-y-auto" style={{ height: "calc(100vh - 250px)" }}>
-            <table className="w-full text-lg">              <thead className="sticky top-0 bg-gray-200 z-10">
-                <tr>
-                  <th className="text-left py-4 px-6 pl-4">Action</th>
-                  <th className="text-left py-2 px-4">Reference-Id</th>
-                  <th className="text-left py-2 px-4">Subject</th>
-                  <th className="text-left py-2 px-4">Category Name</th>
-                  <th className="text-left py-2 px-4">Storage</th>
-                  <th className="text-left py-2 px-4">Created Date</th>
-                  <th className="text-left py-2 px-4">Status</th>
-                  <th className="text-left py-2 px-4">Expired Date</th>
+            <table className="w-full text-base">
+              <thead className="sticky top-0 bg-gray-50 z-10">
+                <tr className="border-b-2 border-gray-200">
+                  <th className="text-left py-3 px-4 min-w-[120px]">Action</th>
+                  <th className="text-left py-3 px-4 min-w-[150px]">Reference-Id</th>
+                  <th className="text-left py-3 px-4 min-w-[200px]">Subject</th>
+                  <th className="text-left py-3 px-4 min-w-[150px]">Category Name</th>
+                  <th className="text-left py-3 px-4 min-w-[150px]">Storage</th>
+                  <th className="text-left py-3 px-4 min-w-[150px]">Created Date</th>
+                  <th className="text-left py-3 px-4 min-w-[120px]">Status</th>
+                  <th className="text-left py-3 px-4 min-w-[150px]">Expired Date</th>
                 </tr>
               </thead>
-              <tbody className="[&_tr]:border-b [&_td]:py-2 [&_td]:px-4">
+              <tbody className="divide-y divide-gray-200">
                 {displayedDocuments.map((document) => (
-                  <tr key={document.id}>
+                  <tr key={document.id} className="hover:bg-gray-50">
                     <td className="py-2 px-4">
                       <Action variant="PendingFileRequest" rowData={document} />
                     </td>
-                    <td className="truncate max-w-[150px] font-mono text-gray-600">{document.refno}</td>
-                    <td className="truncate max-w-[200px] text-blue-500">{document.subject}</td>
-                    <td className="truncate max-w-[200px]">{document.category}</td>
-                    <td className="truncate max-w-[200px]">{document.storage}</td>
-                    <td className="truncate max-w-[200px]">{document.createdDate}</td>
-                    <td className="truncate max-w-[200px]">
+                    <td className="py-2 px-4 truncate max-w-[150px] font-mono text-gray-600">{document.refno}</td>
+                    <td className="py-2 px-4 truncate max-w-[200px] text-blue-500">{document.subject}</td>
+                    <td className="py-2 px-4 truncate max-w-[150px]">{document.category}</td>
+                    <td className="py-2 px-4 truncate max-w-[150px]">{document.storage}</td>
+                    <td className="py-2 px-4 truncate max-w-[150px]">{document.createdDate}</td>
+                    <td className="py-2 px-4">
                       <span className="flex items-center gap-2">
                         <span className="h-2 w-2 rounded-full bg-green-500"></span>
                         <span className="text-green-500">Created</span>
                       </span>
                     </td>
-                    <td className="truncate max-w-[200px] text-red-500">{document.linkExpiration}</td>
+                    <td className="py-2 px-4 truncate max-w-[150px] text-red-500">{document.linkExpiration}</td>
                   </tr>
                 ))}
               </tbody>
@@ -173,12 +177,17 @@ const PendingFileRequest = () => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center mt-4 p-4 bg-gray-100 rounded-lg">
+        <div className="flex justify-between items-center mt-4 text-sm bg-gray-200">
           <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
             rowsPerPage={rowsPerPage}
+            startFrom={startFrom}
+            setStartFrom={setStartFrom}
             onRowsPerPageChange={handleRowsPerPageChange}
           />
-          <div className="text-gray-600">
+          <div className="px-4 text-gray-600">
             Total Documents: {totalDocuments}
           </div>
         </div>

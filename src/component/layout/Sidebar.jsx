@@ -37,7 +37,7 @@ const Sidebar = ({ onLogout }) => {
           {menus.map((menu) => (
             <button
               key={menu.id}
-              className={`w-full flex items-center p-1 text-gray-600 rounded-lg transition-colors ${
+              className={`w-full flex items-center p-1 text-gray-600 rounded-lg transition-colors mb-1 ${
                 location.pathname === menu.path 
                   ? 'bg-blue-300' 
                   : 'hover:bg-blue-300'

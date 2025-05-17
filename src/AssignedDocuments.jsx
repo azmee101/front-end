@@ -179,7 +179,7 @@ const AssignedDocuments = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-4 gap-4">
         <h1 className="text-2xl md:text-2xl font-bold">Assigned Documents</h1>
         <button
-          className="w-full md:w-auto flex items-center justify-center p-2 text-white bg-green-600 hover:bg-green-700 rounded-lg transition-colors"
+          className="w-full md:w-auto flex items-center justify-center p-2 text-white bg-green-600 hover:bg-green-700 rounded-md transition-colors"
           onClick={() => navigate("/add-document")}
         >
           <span className="text-xl font-bold">+</span>
