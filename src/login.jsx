@@ -174,7 +174,7 @@ const Login = ({ setUser }) => {
             </div>
             <button
               type="submit"
-              className="w-full bg-gray-200 text-gray-700 py-3 px-4 rounded font-medium hover:bg-gray-300 transition-colors"
+              className="w-full bg-gray-200 text-gray-700 py-3 px-4 rounded font-medium bg-gray-300 transition-colors"
             >
               Login
             </button>
