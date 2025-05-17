@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from "react-router-dom";
 import Layout from './component/layout/Layout';
 import Login from "./login";
 import Welcome from "./welcome";
@@ -40,12 +40,13 @@ function App() {
   };
 
   const AuthenticatedRoute = ({ children }) => {
+    const location = useLocation();
     return user ? (
       <Layout user={user} onLogout={handleLogout}>
         {children}
       </Layout>
     ) : (
-      <Navigate to="/" />
+      <Navigate to="/" state={{ from: location }} replace />
     );
   };
 
@@ -54,7 +55,13 @@ function App() {
       <Routes>
         <Route
           path="/"
-          element={user ? <Navigate to="/welcome" /> : <Login setUser={setUser} />}
+          element={
+            user ? (
+              <Navigate to={localStorage.getItem("lastPath") || "/welcome"} replace />
+            ) : (
+              <Login setUser={setUser} />
+            )
+          }
         />
 
         <Route

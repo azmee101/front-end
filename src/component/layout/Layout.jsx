@@ -1,7 +1,18 @@
 import Sidebar from "./Sidebar";
 import Topbar from "./Topbar";
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const Layout = ({ user, children, onLogout }) => {
+  const location = useLocation();
+
+  useEffect(() => {
+    // Save the current path whenever it changes
+    if (location.pathname !== '/') {
+      localStorage.setItem('lastPath', location.pathname);
+    }
+  }, [location]);
+
   return (
     <div className="min-h-screen bg-gray-100 flex">
       <Sidebar onLogout={onLogout} />
