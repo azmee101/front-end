@@ -126,7 +126,6 @@ const FileRequest = () => {
     const effectiveRowsPerPage = rowsPerPage === Infinity ? total : rowsPerPage;
     setTotalPages(Math.ceil(total / effectiveRowsPerPage));
   }, [filters, startFrom, rowsPerPage]);
-
   const fetchDocuments = useCallback(async () => {
     try {
       setLoading(true);
@@ -139,11 +138,14 @@ const FileRequest = () => {
 
       const countResponse = await fetch("http://localhost:3001/documents");
       const allDocuments = await countResponse.json();
+      
+      // Get all documents with "Uploaded" status
+      const uploadedDocs = allDocuments.filter(doc => doc.status === "Uploaded");
 
-      // Filter documents based on user role
-      const userDocs = allDocuments.filter(
-        (doc) => doc.createdById === currentUser.user_id.toString()
-      );
+      // Set documents based on user role
+      const userDocs = isUserAdmin 
+        ? uploadedDocs  // Admin sees all uploaded docs
+        : uploadedDocs.filter(doc => doc.createdBy === currentUser.name); // Users see their own docs
 
       setDocuments(userDocs);
       applyFilters(userDocs); // Apply filters to the fetched documents
@@ -152,7 +154,7 @@ const FileRequest = () => {
     } finally {
       setLoading(false);
     }
-  }, [navigate, applyFilters, showNotification]);
+  }, [navigate, applyFilters, showNotification, isUserAdmin]);
 
   useEffect(() => {
     const checkUserRole = () => {

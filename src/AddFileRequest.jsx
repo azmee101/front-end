@@ -123,47 +123,61 @@ const AddFileRequest = () => {
     if (Object.keys(newErrors).length === 0) {
       try {
         const currentUser = getCurrentUser();
-        let documentEndpoint = 'http://localhost:3001/documents';
-        let method = 'POST';
+        const documentEndpoint = 'http://localhost:3001/documents';
 
-        // If in edit mode, update existing document
-        if (mode === 'edit' && rowData) {
-          documentEndpoint = `${documentEndpoint}/${rowData.id}`;
-          method = 'PUT';
-        }
+        // Generate a common reference ID for both documents
+        const commonRefId = `DMS-${String(Date.now()).slice(-3)}`;
 
-        // Create document object
-        const documentData = {
-          ...(rowData && { id: rowData.id }), // Keep existing ID if editing
-          refno: rowData ? rowData.refno : `DMS-${String(Date.now()).slice(-3)}`,
+        // Create common data structure
+        const baseDocumentData = {
+          refno: commonRefId,
           subject: formData.subject,
           email: formData.email,
           maxFileSize: formData.maxFileSize,
           maxDocuments: formData.maxDocuments,
           allowedExtensions: getAllowedExtensions(formData.fileExtension),
-          status: rowData ? rowData.status : "Created",
-          name: rowData ? rowData.name : `Document_${Date.now()}.${getDefaultExtension(formData.fileExtension)}`,
+          name: `Document_${Date.now()}.${getDefaultExtension(formData.fileExtension)}`,
           category: formData.fileExtension,
           storage: "Cloud Storage",
           client: "Client A",
-          createdDate: rowData ? rowData.createdDate : new Date().toLocaleDateString(),
+          createdDate: isCreationDateRequired ? formData.creationDate : new Date().toLocaleDateString(),
           linkExpiration: isLinkValid ? formData.expiryDate : "",
-          creationDate: isCreationDateRequired ? formData.creationDate : "", // Add this line
           createdBy: currentUser.name,
           createdById: currentUser.user_id,
         };
 
-        // Send request
-        const response = await fetch(documentEndpoint, {
-          method: method,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(documentData)
-        });
+        // Create the "Created" status document for PendingFileRequest
+        const pendingDocument = {
+          ...baseDocumentData,
+          status: "Created"
+        };
 
-        if (!response.ok) {
-          throw new Error(mode === 'edit' ? 'Failed to update document' : 'Failed to add document');
+        // Create the "Uploaded" status document for FileRequest
+        const uploadedDocument = {
+          ...baseDocumentData,
+          status: "Uploaded"
+        };
+
+        // Save both documents
+        const [pendingResponse, uploadedResponse] = await Promise.all([
+          fetch(documentEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(pendingDocument)
+          }),
+          fetch(documentEndpoint, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(uploadedDocument)
+          })
+        ]);
+
+        if (!pendingResponse.ok || !uploadedResponse.ok) {
+          throw new Error('Failed to save documents');
         }
 
         // Show success message
@@ -176,7 +190,7 @@ const AddFileRequest = () => {
         }, 2000);
       } catch (error) {
         console.error('Error:', error);
-        alert(`Failed to ${mode === 'edit' ? 'update' : 'add'} document. Please try again.`);
+        alert('Failed to add documents. Please try again.');
       }
     }
   };
