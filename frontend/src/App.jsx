@@ -1,0 +1,229 @@
+import { useState, useEffect } from "react";
+import { BrowserRouter as Router, Route, Routes, Navigate, useLocation } from "react-router-dom";
+import Layout from './component/layout/Layout';
+import Login from "./login";
+import Welcome from "./welcome";
+import AssignedDocuments from "./AssignedDocuments";
+import Dashboard from "./Dashboard";
+import Profile from "./Profile";
+import AllDocuments from './AllDocuments';
+import AccessibleDocuments from './AccessibleDocuments';
+import DocumentCategory from './DocumentCategory';
+import ArchiveDocuments from './ArchiveDocuments';
+import Settings from './Settings';
+import FileRequest from "./FileRequest";
+import AddFileRequest from "./AddFileRequest";
+import SaveRequest from "./SaveRequest";
+import Action from "./component/layout/Action";
+import AddDocument from "./AddDocument";
+import PendingFileRequest from "./PendingFileRequest";
+import AssignDocument from "./AssignDocument";
+
+function App() {
+  const [user, setUser] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // On app load, check if user data exists in localStorage
+    const storedUser = localStorage.getItem("currentUser");
+    if (storedUser) {
+      try {
+        const userData = JSON.parse(storedUser);
+        // Verify token exists
+        if (userData.token) {
+          setUser(userData);
+        } else {
+          localStorage.removeItem("currentUser");
+        }
+      } catch (error) {
+        console.error("Error parsing stored user data:", error);
+        localStorage.removeItem("currentUser");
+      }
+    }
+    setIsLoading(false);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    setUser(null);
+  };
+
+  const AuthenticatedRoute = ({ children }) => {
+    const location = useLocation();
+    
+    // Show loading state while checking authentication
+    if (isLoading) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+        </div>
+      );
+    }
+
+    // If authenticated, render the protected route
+    if (user?.token) {
+      return (
+        <Layout user={user} onLogout={handleLogout}>
+          {children}
+        </Layout>
+      );
+    }
+
+    // If not authenticated, redirect to login
+    return <Navigate to="/" state={{ from: location }} replace />;
+  };
+
+  return (
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            user ? (
+              <Navigate to={localStorage.getItem("lastPath") || "/welcome"} replace />
+            ) : (
+              <Login setUser={setUser} />
+            )
+          }
+        />
+
+        <Route
+          path="/welcome"
+          element={
+            <AuthenticatedRoute>
+              <Welcome user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard"
+          element={
+            <AuthenticatedRoute>
+              <Dashboard user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/assign-document"
+          element={
+            <AuthenticatedRoute>
+              <AssignDocument />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/profile"
+          element={
+            <AuthenticatedRoute>
+              <Profile user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/all-documents"
+          element={
+            <AuthenticatedRoute>
+              <AllDocuments />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/assigned-documents"
+          element={
+            <AuthenticatedRoute>
+              <AssignedDocuments />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/accessible-documents"
+          element={
+            <AuthenticatedRoute>
+              <AccessibleDocuments />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/file-request"
+          element={
+            <AuthenticatedRoute>
+              <FileRequest />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/pending-file-request"
+          element={
+            <AuthenticatedRoute>
+              <PendingFileRequest />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/add-file-request"
+          element={
+            <AuthenticatedRoute>
+              <AddFileRequest />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/save-request"
+          element={
+            <AuthenticatedRoute>
+              <SaveRequest />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/document-categories"
+          element={
+            <AuthenticatedRoute>
+              <DocumentCategory />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/archive-documents"
+          element={
+            <AuthenticatedRoute>
+              <ArchiveDocuments />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/settings"
+          element={
+            <AuthenticatedRoute>
+              <Settings user={user} />
+            </AuthenticatedRoute>
+          }
+        />
+
+        <Route
+          path="/add-document"
+          element={
+            <AuthenticatedRoute>
+              <AddDocument />
+            </AuthenticatedRoute>
+          }
+        />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
